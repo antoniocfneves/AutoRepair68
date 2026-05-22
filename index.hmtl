@@ -4,107 +4,270 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculadora Oficina</title>
+<title>Auto Repair - GTA RP</title>
 
 <style>
-body{
+
+*{
     margin:0;
-    font-family:Arial;
-    background:#111;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
     color:white;
+    min-height:100vh;
 }
 
 header{
-    background:#1c1c1c;
-    padding:20px;
+    background:rgba(0,0,0,0.85);
+    padding:25px;
     text-align:center;
-    font-size:28px;
-    font-weight:bold;
+    border-bottom:3px solid #00ff88;
+    box-shadow:0 0 20px #00ff8855;
+}
+
+header h1{
+    font-size:40px;
+    color:#00ff88;
+    text-shadow:0 0 15px #00ff88;
+}
+
+header p{
+    margin-top:10px;
+    color:#aaa;
 }
 
 .tabs{
     display:flex;
-    overflow:auto;
-    background:#222;
+    overflow-x:auto;
+    background:#111;
+    border-bottom:2px solid #00ff88;
 }
 
 .tab{
-    padding:15px 20px;
-    cursor:pointer;
-    border:none;
-    background:#222;
+    flex:none;
+    padding:18px 25px;
+    background:#111;
     color:white;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
     font-size:16px;
+    font-weight:bold;
+}
+
+.tab:hover{
+    background:#1d1d1d;
 }
 
 .tab.active{
     background:#00aa66;
+    color:black;
 }
 
 .content{
     display:none;
-    padding:20px;
+    padding:25px;
+    animation:fade 0.3s;
 }
 
 .content.active{
     display:block;
 }
 
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
 .item{
-    background:#1d1d1d;
-    margin-bottom:10px;
-    padding:15px;
-    border-radius:10px;
+    background:rgba(20,20,20,0.92);
+    border:1px solid #333;
+    border-left:5px solid #00ff88;
+    padding:18px;
+    margin-bottom:15px;
+    border-radius:12px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
+
+    transition:0.3s;
 }
 
-.total{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#000;
-    padding:20px;
-    font-size:28px;
-    color:#00ff88;
-    border-top:2px solid #00ff88;
+.item:hover{
+    transform:scale(1.01);
+    border-color:#00ff88;
+    box-shadow:0 0 15px #00ff8844;
+}
+
+label{
+    font-size:18px;
+}
+
+input[type="checkbox"]{
+    transform:scale(1.3);
+    margin-right:10px;
 }
 
 input[type="number"]{
-    width:60px;
+    width:70px;
+    padding:8px;
+    border:none;
+    border-radius:8px;
+    background:#222;
+    color:white;
+    text-align:center;
+    font-size:16px;
 }
+
+.total-box{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+
+    background:#000;
+    border:2px solid #00ff88;
+    border-radius:20px;
+
+    padding:20px;
+
+    width:320px;
+
+    box-shadow:0 0 20px #00ff8877;
+}
+
+.total-box h2{
+    color:#00ff88;
+    margin-bottom:10px;
+}
+
+#valorTotal{
+    font-size:35px;
+    font-weight:bold;
+}
+
+.buttons{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+}
+
+.buttons button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.copy{
+    background:#00aa66;
+    color:black;
+}
+
+.reset{
+    background:#aa2222;
+    color:white;
+}
+
+.buttons button:hover{
+    opacity:0.8;
+}
+
+@media(max-width:768px){
+
+    .item{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+    }
+
+    .total-box{
+        width:90%;
+        left:5%;
+        right:5%;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-Calculadora Oficina
+    <h1>🚗 AUTO REPAIR GTA RP</h1>
+    <p>Sistema de orçamento automático</p>
 </header>
 
 <div class="tabs">
-    <button class="tab active" onclick="openTab('nitro', this)">Nitro</button>
-    <button class="tab" onclick="openTab('stage', this)">Stage</button>
-    <button class="tab" onclick="openTab('reparo', this)">Reparos</button>
-    <button class="tab" onclick="openTab('lockpick', this)">Lockpick</button>
-    <button class="tab" onclick="openTab('guincho', this)">Guincho</button>
+
+<button class="tab active"
+onclick="openTab('nitro', this)">
+Nitro
+</button>
+
+<button class="tab"
+onclick="openTab('stage', this)">
+Stage
+</button>
+
+<button class="tab"
+onclick="openTab('reparo', this)">
+Reparos
+</button>
+
+<button class="tab"
+onclick="openTab('lockpick', this)">
+Lockpick
+</button>
+
+<button class="tab"
+onclick="openTab('guincho', this)">
+Guincho
+</button>
+
 </div>
 
 <!-- NITRO -->
+
 <div id="nitro" class="content active">
 
 <div class="item">
 <label>
-<input type="checkbox" value="5625" onchange="calcular()">
- Garrafa Nitro Pequena — $5.625
+<input type="checkbox"
+value="5625"
+onchange="calcular()">
+
+Garrafa Nitro Pequena — $5.625
 </label>
 </div>
 
 <div class="item">
 <label>
-<input type="checkbox" value="20000" onchange="calcular()">
- Garrafa Nitro Grande — $20.000
+<input type="checkbox"
+value="20000"
+onchange="calcular()">
+
+Garrafa Nitro Grande — $20.000
 </label>
 </div>
 
@@ -113,7 +276,9 @@ Calculadora Oficina
 REFIL Nitro — $625
 </label>
 
-<input type="number" min="0" value="0"
+<input type="number"
+min="0"
+value="0"
 data-price="625"
 oninput="calcular()">
 </div>
@@ -121,45 +286,89 @@ oninput="calcular()">
 </div>
 
 <!-- STAGE -->
+
 <div id="stage" class="content">
 
 <div class="item">
 <label>
 <input type="checkbox" value="7500" onchange="calcular()">
- ECU — $7.500
+ECU — $7.500 (STAGE 1)
 </label>
 </div>
 
 <div class="item">
 <label>
 <input type="checkbox" value="13750" onchange="calcular()">
- Kit Freio — $13.750
+Kit Freio — $13.750 (STAGE 2)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Filtro de Ar — $9.400 (STAGE 2)
 </label>
 </div>
 
 <div class="item">
 <label>
 <input type="checkbox" value="15000" onchange="calcular()">
- Escape Esportivo — $15.000
+Escape Esportivo — $15.000 (STAGE 2)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="18800" onchange="calcular()">
+Turbo — $18.800 (STAGE 3)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Intercooler — $9.400 (STAGE 3)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Suspensão 5 — $9.400 (STAGE 3)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Racing Clutch — $9.400 (STAGE 3)
 </label>
 </div>
 
 </div>
 
 <!-- REPAROS -->
+
 <div id="reparo" class="content">
 
 <div class="item">
 <label>
 <input type="checkbox" value="750" onchange="calcular()">
- Reparo ECU — $750
+Reparo ECU — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Turbo — $750
 </label>
 </div>
 
 <div class="item">
 <label>
 <input type="checkbox" value="200" onchange="calcular()">
- Lataria — $200
+Lataria — $200
 </label>
 </div>
 
@@ -168,14 +377,29 @@ oninput="calcular()">
 Motor — $700
 </label>
 
-<input type="number" min="0" value="0"
+<input type="number"
+min="0"
+value="0"
 data-price="700"
+oninput="calcular()">
+</div>
+
+<div class="item">
+<label>
+Pneu — $125
+</label>
+
+<input type="number"
+min="0"
+value="0"
+data-price="125"
 oninput="calcular()">
 </div>
 
 </div>
 
 <!-- LOCKPICK -->
+
 <div id="lockpick" class="content">
 
 <div class="item">
@@ -183,50 +407,117 @@ oninput="calcular()">
 Lockpick — $250
 </label>
 
-<input type="number" min="0" value="0"
+<input type="number"
+min="0"
+value="0"
 data-price="250"
+oninput="calcular()">
+</div>
+
+<div class="item">
+<label>
+Kit Reparo — $2.500
+</label>
+
+<input type="number"
+min="0"
+value="0"
+data-price="2500"
+oninput="calcular()">
+</div>
+
+<div class="item">
+<label>
+Lockpick Avançada — $500
+</label>
+
+<input type="number"
+min="0"
+value="0"
+data-price="500"
 oninput="calcular()">
 </div>
 
 </div>
 
 <!-- GUINCHO -->
+
 <div id="guincho" class="content">
 
 <div class="item">
 <label>
-<input type="checkbox" value="1500" onchange="calcular()">
- Los Santos — $1500
+<input type="checkbox"
+value="1500"
+onchange="calcular()">
+
+Los Santos — $1.500
 </label>
 </div>
 
 <div class="item">
 <label>
-<input type="checkbox" value="500" onchange="calcular()">
- Sandy/Grape — $500
+<input type="checkbox"
+value="500"
+onchange="calcular()">
+
+Sandy/Grape — $500
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox"
+value="1000"
+onchange="calcular()">
+
+Paleto — $1.000
 </label>
 </div>
 
 </div>
 
-<div class="total">
-TOTAL: $<span id="valorTotal">0</span>
+<div class="total-box">
+
+<h2>TOTAL</h2>
+
+<div id="valorTotal">
+0
+</div>
+
+<div class="buttons">
+
+<button class="copy"
+onclick="copiarTotal()">
+Copiar
+</button>
+
+<button class="reset"
+onclick="resetar()">
+Resetar
+</button>
+
+</div>
+
 </div>
 
 <script>
 
-function openTab(tabId, el){
+function openTab(tabId, element){
 
     document.querySelectorAll('.content')
-    .forEach(tab => tab.classList.remove('active'));
+    .forEach(tab => {
+        tab.classList.remove('active');
+    });
 
     document.querySelectorAll('.tab')
-    .forEach(tab => tab.classList.remove('active'));
+    .forEach(btn => {
+        btn.classList.remove('active');
+    });
 
     document.getElementById(tabId)
     .classList.add('active');
 
-    el.classList.add('active');
+    element.classList.add('active');
 }
 
 function calcular(){
@@ -235,19 +526,52 @@ function calcular(){
 
     document.querySelectorAll('input[type="checkbox"]')
     .forEach(item => {
+
         if(item.checked){
             total += Number(item.value);
         }
+
     });
 
     document.querySelectorAll('input[type="number"]')
     .forEach(item => {
-        total += Number(item.value) *
+
+        total +=
+        Number(item.value)
+        *
         Number(item.dataset.price);
+
     });
 
     document.getElementById('valorTotal')
-    .innerText = total.toLocaleString('pt-BR');
+    .innerText =
+    "$" + total.toLocaleString('pt-BR');
+}
+
+function copiarTotal(){
+
+    let valor =
+    document.getElementById('valorTotal')
+    .innerText;
+
+    navigator.clipboard.writeText(valor);
+
+    alert("Total copiado: " + valor);
+}
+
+function resetar(){
+
+    document.querySelectorAll('input[type="checkbox"]')
+    .forEach(item => {
+        item.checked = false;
+    });
+
+    document.querySelectorAll('input[type="number"]')
+    .forEach(item => {
+        item.value = 0;
+    });
+
+    calcular();
 }
 
 </script>
