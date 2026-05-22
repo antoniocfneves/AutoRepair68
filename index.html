@@ -27,12 +27,10 @@ header{
     background:#000;
     border-bottom:2px solid #ff2b2b;
 }
-
 header h1{color:#ff2b2b;font-size:22px;}
 
 /* TABS */
 .tabs{display:flex;overflow-x:auto;background:#111;}
-
 .tab{
     padding:10px 14px;
     background:#111;
@@ -41,11 +39,7 @@ header h1{color:#ff2b2b;font-size:22px;}
     cursor:pointer;
     font-size:12px;
 }
-
-.tab.active{
-    background:#ff2b2b;
-    color:#000;
-}
+.tab.active{background:#ff2b2b;color:#000;}
 
 /* CONTENT */
 .content{display:none;padding:12px;}
@@ -100,20 +94,19 @@ input{
 .client-top{
     display:flex;
     gap:8px;
-    margin-bottom:10px;
+    padding:10px;
 }
-
 .client-top input{
     flex:1;
 }
 
-/* CLIENTES AREA */
+/* CLIENTES */
 .clients-container{
     display:flex;
     gap:10px;
 }
 
-.left, .right{
+.left,.right{
     width:50%;
     background:#111;
     padding:10px;
@@ -131,22 +124,19 @@ table{
     border-collapse:collapse;
     font-size:12px;
 }
-
 th,td{
     border:1px solid #333;
     padding:6px;
 }
-
 th{
     background:#000;
     color:#ff2b2b;
 }
 
-/* RANKING */
+/* RANK */
 .rank-item{
     padding:6px;
     border-bottom:1px solid #333;
-    font-size:12px;
 }
 
 </style>
@@ -169,18 +159,100 @@ th{
 
 </div>
 
-<!-- CLIENTE TOP (NOVO) -->
+<!-- ===================== NITRO ===================== -->
+<div id="nitro" class="content active">
+
+<div class="item"><label><input type="checkbox" value="5625" onchange="calcular()">Nitro Pequena — $5.625</label></div>
+<div class="item"><label><input type="checkbox" value="20000" onchange="calcular()">Nitro Grande — $20.000</label></div>
+
+<div class="item">
+<label>Refil Nitro</label>
+<input type="number" value="0" data-price="625" oninput="calcular()">
+</div>
+
+</div>
+
+<!-- ===================== STAGE ===================== -->
+<div id="stage" class="content">
+
+<div class="item"><label><input type="checkbox" value="7500" onchange="calcular()">ECU — $7.500 (STAGE 1)</label></div>
+<div class="item"><label><input type="checkbox" value="13750" onchange="calcular()">Kit Freio — $13.750 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Filtro de Ar — $9.400 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="15000" onchange="calcular()">Escape Esportivo — $15.000 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="18800" onchange="calcular()">Turbo — $18.800 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Intercooler — $9.400</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Suspensão 5 — $9.400</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Racing Clutch — $9.400</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Coletor de Admissão — $9.400</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Sistema de Combustível — $9.400</label></div>
+
+</div>
+
+<!-- ===================== REPAROS ===================== -->
+<div id="reparo" class="content">
+
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo ECU — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Freio — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Filtro — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Escape — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Turbo — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Intercooler — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Suspensão — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Clutch — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Coletor — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Combustível — $750</label></div>
+
+<div class="item"><label><input type="checkbox" value="200" onchange="calcular()">Lataria — $200</label></div>
+<div class="item"><label><input type="checkbox" value="700" onchange="calcular()">Motor — $700</label></div>
+
+<div class="item">
+<label>Pneu</label>
+<input type="number" value="0" data-price="125" oninput="calcular()">
+</div>
+
+</div>
+
+<!-- ===================== LOCKPICK ===================== -->
+<div id="lockpick" class="content">
+
+<div class="item">
+<label>Lockpick</label>
+<input type="number" value="0" data-price="250" oninput="calcular()">
+</div>
+
+<div class="item">
+<label>Kit Reparo</label>
+<input type="number" value="0" data-price="2500" oninput="calcular()">
+</div>
+
+<div class="item">
+<label>Lockpick Avançada</label>
+<input type="number" value="0" data-price="500" oninput="calcular()">
+</div>
+
+</div>
+
+<!-- ===================== GUINCHO ===================== -->
+<div id="guincho" class="content">
+
+<div class="item"><label><input type="checkbox" value="1500" onchange="calcular()">Los Santos</label></div>
+<div class="item"><label><input type="checkbox" value="500" onchange="calcular()">Sandy</label></div>
+<div class="item"><label><input type="checkbox" value="1000" onchange="calcular()">Paleto</label></div>
+
+</div>
+
+<!-- ===================== CLIENTES ===================== -->
+<div id="clientes" class="content">
+
+<!-- TOP INPUTS -->
 <div class="client-top">
 <input id="clientName" placeholder="Nome">
 <input id="clientCode" placeholder="Código">
 </div>
 
-<!-- CLIENTES -->
-<div id="clientes" class="content active">
-
 <div class="clients-container">
 
-<!-- ESQUERDA -->
+<!-- LEFT -->
 <div class="left">
 
 <input class="search" id="search" placeholder="Buscar cliente..." oninput="renderClientes()">
@@ -199,7 +271,7 @@ th{
 
 </div>
 
-<!-- DIREITA -->
+<!-- RIGHT -->
 <div class="right">
 <h3>🏆 Ranking</h3>
 <div id="ranking"></div>
@@ -209,7 +281,7 @@ th{
 
 </div>
 
-<!-- TOTAL -->
+<!-- ===================== TOTAL ===================== -->
 <div class="total-box">
 
 <div id="valorTotal">$0</div>
@@ -234,8 +306,19 @@ el.classList.add('active');
 }
 
 function calcular(){
+
 let total = 0;
-document.getElementById("valorTotal").innerText = "$" + total;
+
+document.querySelectorAll('input[type="checkbox"]').forEach(i=>{
+if(i.checked) total += Number(i.value);
+});
+
+document.querySelectorAll('input[type="number"]').forEach(i=>{
+total += Number(i.value) * Number(i.dataset.price);
+});
+
+document.getElementById("valorTotal").innerText =
+"$" + total.toLocaleString('pt-BR');
 }
 
 function salvarOrcamento(){
@@ -243,16 +326,15 @@ function salvarOrcamento(){
 let name = document.getElementById("clientName").value;
 let code = document.getElementById("clientCode").value;
 
-if(!code) return;
+if(!code) return alert("Informe código");
 
-let total = Number(document.getElementById("valorTotal").innerText.replace("$","") || 0);
+let total = Number(document.getElementById("valorTotal").innerText.replace("$",""));
 
 if(!clients[code]){
-clients[code] = {name, code, total:0, visits:0};
+clients[code] = {name,code,total:0,visits:0};
 }
 
 clients[code].name = name;
-clients[code].code = code;
 clients[code].total += total;
 clients[code].visits++;
 
@@ -265,16 +347,13 @@ function renderClientes(){
 
 let search = document.getElementById("search").value?.toLowerCase() || "";
 
+let data = Object.values(clients)
+.filter(c=>c.name.toLowerCase().includes(search));
+
 let body = document.getElementById("tableBody");
 body.innerHTML = "";
 
-let ranking = Object.values(clients)
-.sort((a,b)=>b.total - a.total);
-
-ranking.forEach(c=>{
-
-if(c.name.toLowerCase().includes(search)){
-
+data.forEach(c=>{
 body.innerHTML += `
 <tr>
 <td>${c.name}</td>
@@ -283,20 +362,14 @@ body.innerHTML += `
 <td>${c.visits}</td>
 </tr>
 `;
-}
 });
 
-let rankDiv = document.getElementById("ranking");
-rankDiv.innerHTML = "";
+let ranking = [...data].sort((a,b)=>b.total-a.total);
 
-ranking.slice(0,5).forEach((c,i)=>{
-rankDiv.innerHTML += `
-<div class="rank-item">
-${i+1}. ${c.name} - $${c.total}
-</div>
-`;
-});
-
+document.getElementById("ranking").innerHTML =
+ranking.slice(0,5).map((c,i)=>
+`<div>${i+1}. ${c.name} - $${c.total}</div>`
+).join("");
 }
 
 function copiarTotal(){
@@ -304,7 +377,9 @@ navigator.clipboard.writeText(document.getElementById("valorTotal").innerText);
 }
 
 function resetar(){
-document.getElementById("valorTotal").innerText = "$0";
+document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false);
+document.querySelectorAll('input[type="number"]').forEach(i=>i.value=0);
+calcular();
 }
 
 renderClientes();
