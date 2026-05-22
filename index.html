@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Auto Repair - GTA RP</title>
+<title>Auto Repair</title>
 
 <style>
 
@@ -17,17 +19,19 @@
 body{
     font-family:Arial, Helvetica, sans-serif;
     background:
-    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)),
+    linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.92)),
     url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
+
     background-size:cover;
     background-position:center;
     background-attachment:fixed;
+
     color:white;
     min-height:100vh;
 }
 
 header{
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.9);
     padding:25px;
     text-align:center;
     border-bottom:3px solid #00ff88;
@@ -84,6 +88,7 @@ header p{
 }
 
 @keyframes fade{
+
     from{
         opacity:0;
         transform:translateY(10px);
@@ -93,14 +98,18 @@ header p{
         opacity:1;
         transform:translateY(0);
     }
+
 }
 
 .item{
     background:rgba(20,20,20,0.92);
+
     border:1px solid #333;
     border-left:5px solid #00ff88;
+
     padding:18px;
     margin-bottom:15px;
+
     border-radius:12px;
 
     display:flex;
@@ -137,11 +146,14 @@ input[type="number"]{
 }
 
 .total-box{
+
     position:fixed;
+
     right:20px;
     bottom:20px;
 
     background:#000;
+
     border:2px solid #00ff88;
     border-radius:20px;
 
@@ -169,12 +181,18 @@ input[type="number"]{
 }
 
 .buttons button{
+
     flex:1;
+
     padding:12px;
+
     border:none;
     border-radius:10px;
+
     cursor:pointer;
+
     font-weight:bold;
+
     transition:0.3s;
 }
 
@@ -209,12 +227,13 @@ input[type="number"]{
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
-    <h1>🚗 AUTO REPAIR GTA RP</h1>
+    <h1>🚗 AUTO REPAIR</h1>
     <p>Sistema de orçamento automático</p>
 </header>
 
@@ -272,6 +291,7 @@ Garrafa Nitro Grande — $20.000
 </div>
 
 <div class="item">
+
 <label>
 REFIL Nitro — $625
 </label>
@@ -281,6 +301,7 @@ min="0"
 value="0"
 data-price="625"
 oninput="calcular()">
+
 </div>
 
 </div>
@@ -345,6 +366,20 @@ Racing Clutch — $9.400 (STAGE 3)
 </label>
 </div>
 
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Coletor de Admissão — $9.400 (STAGE 3)
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="9400" onchange="calcular()">
+Sistema de Combustível — $9.400 (STAGE 3)
+</label>
+</div>
+
 </div>
 
 <!-- REPAROS -->
@@ -361,7 +396,63 @@ Reparo ECU — $750
 <div class="item">
 <label>
 <input type="checkbox" value="750" onchange="calcular()">
+Reparo Kit Freio — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Filtro de Ar — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Escape Esportivo — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
 Reparo Turbo — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Intercooler — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Suspensão 5 — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Racing Clutch — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Coletor de Admissão — $750
+</label>
+</div>
+
+<div class="item">
+<label>
+<input type="checkbox" value="750" onchange="calcular()">
+Reparo Sistema de Combustível — $750
 </label>
 </div>
 
@@ -374,17 +465,13 @@ Lataria — $200
 
 <div class="item">
 <label>
+<input type="checkbox" value="700" onchange="calcular()">
 Motor — $700
 </label>
-
-<input type="number"
-min="0"
-value="0"
-data-price="700"
-oninput="calcular()">
 </div>
 
 <div class="item">
+
 <label>
 Pneu — $125
 </label>
@@ -394,6 +481,7 @@ min="0"
 value="0"
 data-price="125"
 oninput="calcular()">
+
 </div>
 
 </div>
@@ -403,6 +491,7 @@ oninput="calcular()">
 <div id="lockpick" class="content">
 
 <div class="item">
+
 <label>
 Lockpick — $250
 </label>
@@ -412,9 +501,11 @@ min="0"
 value="0"
 data-price="250"
 oninput="calcular()">
+
 </div>
 
 <div class="item">
+
 <label>
 Kit Reparo — $2.500
 </label>
@@ -424,9 +515,11 @@ min="0"
 value="0"
 data-price="2500"
 oninput="calcular()">
+
 </div>
 
 <div class="item">
+
 <label>
 Lockpick Avançada — $500
 </label>
@@ -436,6 +529,7 @@ min="0"
 value="0"
 data-price="500"
 oninput="calcular()">
+
 </div>
 
 </div>
@@ -481,7 +575,7 @@ Paleto — $1.000
 <h2>TOTAL</h2>
 
 <div id="valorTotal">
-0
+$0
 </div>
 
 <div class="buttons">
@@ -546,6 +640,7 @@ function calcular(){
     document.getElementById('valorTotal')
     .innerText =
     "$" + total.toLocaleString('pt-BR');
+
 }
 
 function copiarTotal(){
@@ -557,6 +652,7 @@ function copiarTotal(){
     navigator.clipboard.writeText(valor);
 
     alert("Total copiado: " + valor);
+
 }
 
 function resetar(){
@@ -572,6 +668,7 @@ function resetar(){
     });
 
     calcular();
+
 }
 
 </script>
