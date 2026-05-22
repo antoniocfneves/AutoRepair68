@@ -3,202 +3,367 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Repair</title>
+<title>Auto Repair - Dashboard</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+:root {
+    --primary: #ff2b2b;
+    --primary-glow: rgba(255, 43, 43, 0.3);
+    --bg-dark: #0a0a0c;
+    --panel-bg: rgba(20, 20, 25, 0.85);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --input-bg: #16161c;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+}
 
-body{
-    font-family: Arial, sans-serif;
-    background:
-    linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.95)),
-    url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
-    background-size:cover;
-    background-attachment:fixed;
-    color:white;
-    font-size:13px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: 
+        linear-gradient(rgba(10, 10, 12, 0.92), rgba(5, 5, 5, 0.97)),
+        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: var(--text-main);
+    font-size: 14px;
+    padding-bottom: 90px; /* Evita que o conteúdo suma atrás da barra fixa */
 }
 
 /* HEADER */
-header{
-    padding:12px;
-    text-align:center;
-    background:#000;
-    border-bottom:2px solid #ff2b2b;
+header {
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--panel-border);
 }
-header h1{color:#ff2b2b;font-size:22px;}
+header h1 {
+    color: var(--text-main);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+header h1 span {
+    color: var(--primary);
+    text-shadow: 0 0 12px var(--primary-glow);
+}
 
-/* TABS */
-.tabs{display:flex;overflow-x:auto;background:#111;}
-.tab{
-    padding:10px 14px;
-    background:#111;
-    border:none;
-    color:white;
-    cursor:pointer;
-    font-size:12px;
+/* TABS SYSTEM */
+.tabs {
+    display: flex;
+    justify-content: center;
+    background: rgba(15, 15, 20, 0.8);
+    backdrop-filter: blur(5px);
+    border-bottom: 2px solid #111;
+    padding: 5px 10px 0 10px;
+    gap: 4px;
+    overflow-x: auto;
+}
+.tab {
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
     white-space: nowrap;
+    border-radius: 6px 6px 0 0;
+    transition: all 0.2s ease;
 }
-.tab.active{background:#ff2b2b;color:#000;font-weight:bold;}
+.tab:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.03);
+}
+.tab.active {
+    background: var(--primary);
+    color: #000;
+    font-weight: 700;
+    box-shadow: 0 -4px 12px var(--primary-glow);
+}
 
-/* CONTENT */
-.content{display:none;padding:12px;margin-bottom: 80px;} /* Margem para não sumir atrás da barra inferior */
-.content.active{display:block;}
+/* CONTAINER PRINCIPAL */
+.container {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
 
-.item{
-    background:#111;
-    padding:10px;
-    margin-bottom:8px;
-    border-left:4px solid #ff2b2b;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+/* CONTENT BLOCKS */
+.content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+.content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* GRID DE PRODUTOS/SERVIÇOS */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.item {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    backdrop-filter: blur(10px);
+    padding: 14px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+.item:hover {
+    border-color: rgba(255, 43, 43, 0.4);
+    background: rgba(255, 43, 43, 0.02);
+}
+
+/* Quando o item está marcado (via JS) */
+.item.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(255, 43, 43, 0.15) inset, 0 2px 8px rgba(0,0,0,0.4);
+    background: rgba(255, 43, 43, 0.04);
 }
 
 .item label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
     width: 100%;
+    font-weight: 500;
 }
 
-input[type="number"]{
-    background:#222;
-    border:1px solid #333;
-    color:white;
-    padding:5px;
-    text-align:center;
-    width: 60px;
-    border-radius:4px;
+.item .price-tag {
+    color: var(--primary);
+    font-weight: 700;
+    margin-left: auto;
+    margin-right: 10px;
 }
 
+/* INPUTS CUSTOMIZADOS */
 input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-/* TOTAL E CLIENTE FIXO EM BAIXO */
-.total-box{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    border-top:2px solid #ff2b2b;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:8px 15px;
-    z-index: 1000;
-    gap: 15px;
-}
-
-.total-info-block {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex: 1;
-}
-
-#valorTotal{
-    font-size:22px;
-    font-weight:bold;
-    color:#ff2b2b;
-    white-space: nowrap;
-}
-
-.client-inputs-dock {
-    display: flex;
-    gap: 8px;
-    flex: 1;
-    max-width: 500px;
-}
-
-.client-inputs-dock input {
-    flex: 1;
-    background: #1c1c1c;
-    border: 1px solid #333;
-    color: white;
-    padding: 6px 10px;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #4b5563;
     border-radius: 4px;
-    font-size: 12px;
+    background: var(--input-bg);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s;
+}
+input[type="checkbox"]:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    color: black;
+    font-size: 13px;
+    font-weight: 900;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.client-inputs-dock input:focus {
-    border-color: #ff2b2b;
+input[type="number"] {
+    background: var(--input-bg);
+    border: 1px solid #374151;
+    color: white;
+    padding: 6px;
+    text-align: center;
+    width: 65px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+input[type="number"]:focus {
+    border-color: var(--primary);
     outline: none;
 }
 
-/* BOTÕES */
-.buttons{display:flex; gap:6px;}
-.buttons button{
-    padding:8px 12px;
-    border:none;
-    cursor:pointer;
-    font-size:12px;
-    font-weight:bold;
-    border-radius:4px;
-    transition: 0.2s;
+/* CLIENTES TAB DESIGN */
+.clients-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
 }
-.buttons button:hover{opacity: 0.8;}
-
-.copy{background:#555;color:white;}
-.reset{background:#ff2b2b;color:black;}
-.save{background:#2bff6a;color:black;}
-
-/* CLIENTES ABA */
-.clients-container{
-    display:flex;
-    gap:10px;
-    margin-top: 5px;
+.panel-left {
+    flex: 2;
+    min-width: 320px;
 }
-
-.left,.right{
-    width:50%;
-    background:#111;
-    padding:12px;
-    border-radius:8px;
-    border: 1px solid #222;
+.panel-right {
+    flex: 1;
+    min-width: 300px;
+}
+.panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+.panel h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 8px;
 }
 
-.search{
-    width:100%;
-    margin-bottom:10px;
-    background:#222;
-    border:1px solid #333;
-    color:white;
-    padding:8px;
-    border-radius:4px;
+.search {
+    width: 100%;
+    margin-bottom: 15px;
+    background: var(--input-bg);
+    border: 1px solid #27272a;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
 }
+.search:focus { border-color: var(--primary); outline: none; }
 
-/* TABLE */
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:12px;
+/* RECORDE DE TABELAS */
+.table-responsive {
+    overflow-x: auto;
 }
-th,td{
-    border:1px solid #333;
-    padding:8px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #222;
 }
-th{
-    background:#000;
-    color:#ff2b2b;
+th {
+    background: rgba(0,0,0,0.3);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+tr:hover td {
+    background: rgba(255,255,255,0.01);
 }
 
-/* RANK */
-.rank-item{
-    padding:8px;
-    border-bottom:1px solid #333;
+/* LISTA DE RANKING */
+.rank-item {
+    padding: 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    border-left: 3px solid #3b82f6;
 }
-.rank-item:nth-child(1) {color: #ffd700; font-weight: bold;} 
-.rank-item:nth-child(2) {color: #c0c0c0;} 
-.rank-item:nth-child(3) {color: #cd7f32;} 
+.rank-item:nth-child(1) { border-left-color: #ffd700; background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent); }
+.rank-item:nth-child(2) { border-left-color: #94a3b8; }
+.rank-item:nth-child(3) { border-left-color: #b45309; }
+
+/* BARRA DOCK INFERIOR (FIXADA) */
+.dock-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(5, 5, 7, 0.9);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 43, 43, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    z-index: 1000;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    gap: 20px;
+}
+
+.dock-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex: 1;
+}
+
+.total-display {
+    display: flex;
+    flex-direction: column;
+}
+.total-display span {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+#valorTotal {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-glow);
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.dock-inputs {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    max-width: 480px;
+}
+.dock-inputs input {
+    flex: 1;
+    background: #111115;
+    border: 1px solid #27272a;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    transition: border-color 0.2s;
+}
+.dock-inputs input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* BOTÕES GERAIS */
+.dock-buttons { display: flex; gap: 8px; }
+.btn {
+    padding: 10px 18px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.btn:active { transform: translateY(1px); }
+
+.btn-copy { background: #27272a; color: var(--text-main); border: 1px solid #3f3f46; }
+.btn-reset { background: #3f1212; color: #fca5a5; border: 1px solid #7f1d1d; }
+.btn-save { background: #22c55e; color: #052e16; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
 
 </style>
 </head>
@@ -206,225 +371,267 @@ th{
 <body>
 
 <header>
-<h1>🚗 AUTO REPAIR</h1>
+    <h1>🚗 AUTO <span>REPAIR</span></h1>
 </header>
 
 <div class="tabs">
-<button class="tab active" onclick="openTab('nitro',this)">Nitro</button>
-<button class="tab" onclick="openTab('stage',this)">Stage</button>
-<button class="tab" onclick="openTab('reparo',this)">Reparos</button>
-<button class="tab" onclick="openTab('lockpick',this)">Lockpick</button>
-<button class="tab" onclick="openTab('guincho',this)">Guincho</button>
-<button class="tab" onclick="openTab('clientes',this)">Clientes</button>
+    <button class="tab active" onclick="openTab('nitro',this)">Nitro</button>
+    <button class="tab" onclick="openTab('stage',this)">Stage</button>
+    <button class="tab" onclick="openTab('reparo',this)">Reparos</button>
+    <button class="tab" onclick="openTab('lockpick',this)">Lockpick</button>
+    <button class="tab" onclick="openTab('guincho',this)">Guincho</button>
+    <button class="tab" onclick="openTab('clientes',this)">Clientes</button>
 </div>
 
-<!-- ===================== NITRO ===================== -->
-<div id="nitro" class="content active">
-<div class="item"><label><input type="checkbox" value="5625" onchange="calcular()">Nitro Pequena — $5.625</label></div>
-<div class="item"><label><input type="checkbox" value="20000" onchange="calcular()">Nitro Grande — $20.000</label></div>
-<div class="item">
-<label>Refil Nitro ($625)</label>
-<input type="number" value="0" min="0" data-price="625" oninput="calcular()">
-</div>
-</div>
+<div class="container">
 
-<!-- ===================== STAGE ===================== -->
-<div id="stage" class="content">
-<div class="item"><label><input type="checkbox" value="7500" onchange="calcular()">ECU — $7.500 (STAGE 1)</label></div>
-<div class="item"><label><input type="checkbox" value="13750" onchange="calcular()">Kit Freio — $13.750 (STAGE 2)</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Filtro de Ar — $9.400 (STAGE 2)</label></div>
-<div class="item"><label><input type="checkbox" value="15000" onchange="calcular()">Escape Esportivo — $15.000 (STAGE 2)</label></div>
-<div class="item"><label><input type="checkbox" value="18800" onchange="calcular()">Turbo — $18.800 (STAGE 3)</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Intercooler — $9.400</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Suspensão 5 — $9.400</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Racing Clutch — $9.400</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Coletor de Admissão — $9.400</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Sistema de Combustível — $9.400</label></div>
-</div>
-
-<!-- ===================== REPAROS ===================== -->
-<div id="reparo" class="content">
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo ECU — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Freio — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Filtro — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Escape — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Turbo — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Intercooler — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Suspensão — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Clutch — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Coletor — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Combustível — $750</label></div>
-<div class="item"><label><input type="checkbox" value="200" onchange="calcular()">Lataria — $200</label></div>
-<div class="item"><label><input type="checkbox" value="700" onchange="calcular()">Motor — $700</label></div>
-<div class="item">
-<label>Pneu ($125)</label>
-<input type="number" value="0" min="0" data-price="125" oninput="calcular()">
-</div>
-</div>
-
-<!-- ===================== LOCKPICK ===================== -->
-<div id="lockpick" class="content">
-<div class="item">
-<label>Lockpick ($250)</label>
-<input type="number" value="0" min="0" data-price="250" oninput="calcular()">
-</div>
-<div class="item">
-<label>Kit Reparo ($2.500)</label>
-<input type="number" value="0" min="0" data-price="2500" oninput="calcular()">
-</div>
-<div class="item">
-<label>Lockpick Avançada ($500)</label>
-<input type="number" value="0" min="0" data-price="500" oninput="calcular()">
-</div>
-</div>
-
-<!-- ===================== GUINCHO ===================== -->
-<div id="guincho" class="content">
-<div class="item"><label><input type="checkbox" value="1500" onchange="calcular()">Los Santos — $1.500</label></div>
-<div class="item"><label><input type="checkbox" value="500" onchange="calcular()">Sandy — $500</label></div>
-<div class="item"><label><input type="checkbox" value="1000" onchange="calcular()">Paleto — $1.000</label></div>
-</div>
-
-<!-- ===================== CLIENTES ===================== -->
-<div id="clientes" class="content">
-<div class="clients-container">
-<!-- LEFT -->
-<div class="left">
-<input class="search" id="search" placeholder="Buscar cliente por nome ou passaporte..." oninput="renderClientes()">
-<table>
-<thead>
-<tr>
-<th>Nome</th>
-<th>Código / ID</th>
-<th>Total Gasto</th>
-<th>Visitas</th>
-</tr>
-</thead>
-<tbody id="tableBody"></tbody>
-</table>
-</div>
-
-<!-- RIGHT -->
-<div class="right">
-<h3>🏆 Top 5 Clientes</h3>
-<div id="ranking" style="margin-top: 10px;"></div>
-</div>
-</div>
-</div>
-
-<!-- ===================== TOTAL E REGISTRO FIXO ===================== -->
-<div class="total-box">
-<div class="total-info-block">
-    <div id="valorTotal">$0</div>
-    
-    <!-- Caixa de Entrada de dados integrada ao lado do valor -->
-    <div class="client-inputs-dock">
-        <input id="clientName" placeholder="Nome do Cliente">
-        <input id="clientCode" placeholder="Passaporte / ID (Obrigatório)">
+    <!-- ===================== NITRO ===================== -->
+    <div id="nitro" class="content active">
+        <div class="items-grid">
+            <div class="item"><label><input type="checkbox" value="5625" onchange="calcular()"> <span>Nitro Pequena</span> <span class="price-tag">$5.625</span></label></div>
+            <div class="item"><label><input type="checkbox" value="20000" onchange="calcular()"> <span>Nitro Grande</span> <span class="price-tag">$20.000</span></label></div>
+            <div class="item">
+                <label><span>Refil Nitro</span> <span class="price-tag">$625</span></label>
+                <input type="number" value="0" min="0" data-price="625" oninput="calcular()">
+            </div>
+        </div>
     </div>
+
+    <!-- ===================== STAGE ===================== -->
+    <div id="stage" class="content">
+        <div class="items-grid">
+            <div class="item"><label><input type="checkbox" value="7500" onchange="calcular()"> <span>ECU (STAGE 1)</span> <span class="price-tag">$7.500</span></label></div>
+            <div class="item"><label><input type="checkbox" value="13750" onchange="calcular()"> <span>Kit Freio (STAGE 2)</span> <span class="price-tag">$13.750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Filtro de Ar (STAGE 2)</span> <span class="price-tag">$9.400</span></label></div>
+            <div class="item"><label><input type="checkbox" value="15000" onchange="calcular()"> <span>Escape Esportivo (STAGE 2)</span> <span class="price-tag">$15.000</span></label></div>
+            <div class="item"><label><input type="checkbox" value="18800" onchange="calcular()"> <span>Turbo (STAGE 3)</span> <span class="price-tag">$18.800</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Intercooler</span> <span class="price-tag">$9.400</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Suspensão 5</span> <span class="price-tag">$9.400</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Racing Clutch</span> <span class="price-tag">$9.400</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Coletor de Admissão</span> <span class="price-tag">$9.400</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9400" onchange="calcular()"> <span>Sistema de Combustível</span> <span class="price-tag">$9.400</span></label></div>
+        </div>
+    </div>
+
+    <!-- ===================== REPAROS ===================== -->
+    <div id="reparo" class="content">
+        <div class="items-grid">
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo ECU</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Freio</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Filtro</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Escape</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Turbo</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Intercooler</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Suspensão</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Clutch</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Coletor</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Combustível</span> <span class="price-tag">$750</span></label></div>
+            <div class="item"><label><input type="checkbox" value="200" onchange="calcular()"> <span>Lataria</span> <span class="price-tag">$200</span></label></div>
+            <div class="item"><label><input type="checkbox" value="700" onchange="calcular()"> <span>Motor</span> <span class="price-tag">$700</span></label></div>
+            <div class="item">
+                <label><span>Pneu</span> <span class="price-tag">$125</span></label>
+                <input type="number" value="0" min="0" data-price="125" oninput="calcular()">
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== LOCKPICK ===================== -->
+    <div id="lockpick" class="content">
+        <div class="items-grid">
+            <div class="item">
+                <label><span>Lockpick</span> <span class="price-tag">$250</span></label>
+                <input type="number" value="0" min="0" data-price="250" oninput="calcular()">
+            </div>
+            <div class="item">
+                <label><span>Kit Reparo</span> <span class="price-tag">$2.500</span></label>
+                <input type="number" value="0" min="0" data-price="2500" oninput="calcular()">
+            </div>
+            <div class="item">
+                <label><span>Lockpick Avançada</span> <span class="price-tag">$500</span></label>
+                <input type="number" value="0" min="0" data-price="500" oninput="calcular()">
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== GUINCHO ===================== -->
+    <div id="guincho" class="content">
+        <div class="items-grid">
+            <div class="item"><label><input type="checkbox" value="1500" onchange="calcular()"> <span>Los Santos</span> <span class="price-tag">$1.500</span></label></div>
+            <div class="item"><label><input type="checkbox" value="500" onchange="calcular()"> <span>Sandy</span> <span class="price-tag">$500</span></label></div>
+            <div class="item"><label><input type="checkbox" value="1000" onchange="calcular()"> <span>Paleto</span> <span class="price-tag">$1.000</span></label></div>
+        </div>
+    </div>
+
+    <!-- ===================== CLIENTES ===================== -->
+    <div id="clientes" class="content">
+        <div class="clients-container">
+            <!-- ESQUERDA: LISTA -->
+            <div class="panel panel-left">
+                <h3>Histórico de Ordens</h3>
+                <input class="search" id="search" placeholder="Filtrar por nome ou passaporte..." oninput="renderClientes()">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Passaporte</th>
+                                <th>Total Acumulado</th>
+                                <th>Frequência</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DIREITA: RANKING -->
+            <div class="panel panel-right">
+                <h3>🏆 Melhores Clientes</h3>
+                <div id="ranking"></div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<div class="buttons">
-<button class="copy" onclick="copiarTotal()">Copiar</button>
-<button class="reset" onclick="resetar()">Limpar Itens</button>
-<button class="save" onclick="salvarOrcamento()">Salvar e Lançar</button>
-</div>
+<!-- ===================== DOCK BAR INFERIOR ===================== -->
+<div class="dock-bar">
+    <div class="dock-left">
+        <div class="total-display">
+            <span>Subtotal Atual</span>
+            <div id="valorTotal">$0</div>
+        </div>
+        
+        <div class="dock-inputs">
+            <input id="clientName" placeholder="Nome do Cliente (Opcional)">
+            <input id="clientCode" placeholder="ID / Passaporte (Obrigatório)">
+        </div>
+    </div>
+
+    <div class="dock-buttons">
+        <button class="btn btn-copy" onclick="copiarTotal()">Copiar Valor</button>
+        <button class="btn btn-reset" onclick="resetar()">Limpar Tudo</button>
+        <button class="btn btn-save" onclick="salvarOrcamento()">Salvar Registro</button>
+    </div>
 </div>
 
 <script>
 let valorAtualNumerico = 0;
 let clients = JSON.parse(localStorage.getItem("clients") || "{}");
 
-function openTab(id,el){
-document.querySelectorAll('.content').forEach(e=>e.classList.remove('active'));
-document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-el.classList.add('active');
+function openTab(id, el) {
+    document.querySelectorAll('.content').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
 }
 
-function calcular(){
-let total = 0;
+function calcular() {
+    let total = 0;
 
-document.querySelectorAll('input[type="checkbox"]').forEach(i=>{
-if(i.checked) total += Number(i.value);
-});
+    // Varre checkboxes, atualiza classe visual do contêiner pai (.item)
+    document.querySelectorAll('input[type="checkbox"]').forEach(i => {
+        let itemContainer = i.closest('.item');
+        if (i.checked) {
+            total += Number(i.value);
+            if(itemContainer) itemContainer.classList.add('selected');
+        } else {
+            if(itemContainer) itemContainer.classList.remove('selected');
+        }
+    });
 
-document.querySelectorAll('input[type="number"]').forEach(i=>{
-let qtd = Number(i.value);
-if(qtd < 0) { i.value = 0; qtd = 0; }
-total += qtd * Number(i.dataset.price);
-});
+    // Varre inputs numéricos
+    document.querySelectorAll('input[type="number"]').forEach(i => {
+        let qtd = Number(i.value);
+        let itemContainer = i.closest('.item');
+        
+        if (qtd < 0) { i.value = 0; qtd = 0; }
+        
+        total += qtd * Number(i.dataset.price);
+        
+        if (qtd > 0) {
+            if(itemContainer) itemContainer.classList.add('selected');
+        } else {
+            // Só tira a classe se o checkbox (caso existisse no mesmo bloco) também não estivesse ativo
+            if(itemContainer && !itemContainer.querySelector('input[type="checkbox"]')?.checked) {
+                itemContainer.classList.remove('selected');
+            }
+        }
+    });
 
-valorAtualNumerico = total;
-document.getElementById("valorTotal").innerText = "$" + total.toLocaleString('pt-BR');
+    valorAtualNumerico = total;
+    document.getElementById("valorTotal").innerText = "$" + total.toLocaleString('pt-BR');
 }
 
-function salvarOrcamento(){
-let name = document.getElementById("clientName").value.trim();
-let code = document.getElementById("clientCode").value.trim();
+function salvarOrcamento() {
+    let name = document.getElementById("clientName").value.trim();
+    let code = document.getElementById("clientCode").value.trim();
 
-if(!code) return alert("Por favor, preencha o campo 'Passaporte / ID' antes de salvar!");
-if(valorAtualNumerico === 0) return alert("O valor do orçamento atual está zerado!");
+    if (!code) return alert("Erro: O Passaporte/ID do cliente é obrigatório para registrar!");
+    if (valorAtualNumerico === 0) return alert("Erro: Não é possível registrar uma ordem com valor zerado!");
 
-if(!clients[code]){
-    clients[code] = {name: name || "Mecânico Oculto", code, total: 0, visits: 0};
+    if (!clients[code]) {
+        clients[code] = { name: name || "Cliente Oculto", code, total: 0, visits: 0 };
+    }
+
+    if (name) clients[code].name = name;
+
+    clients[code].total += valorAtualNumerico;
+    clients[code].visits++;
+
+    localStorage.setItem("clients", JSON.stringify(clients));
+
+    alert(`Ordem de serviço registrada!\nValor de $${valorAtualNumerico.toLocaleString('pt-BR')} adicionado ao ID #${code}.`);
+
+    // Reseta entradas
+    document.getElementById("clientName").value = "";
+    document.getElementById("clientCode").value = "";
+    resetar();
+    renderClientes();
 }
 
-if(name) clients[code].name = name;
+function renderClientes() {
+    let search = document.getElementById("search").value?.toLowerCase() || "";
+    let allClients = Object.values(clients);
 
-clients[code].total += valorAtualNumerico;
-clients[code].visits++;
+    let dataFiltrada = allClients.filter(c => c.name.toLowerCase().includes(search) || c.code.includes(search));
+    let body = document.getElementById("tableBody");
+    body.innerHTML = "";
 
-localStorage.setItem("clients", JSON.stringify(clients));
+    dataFiltrada.forEach(c => {
+        body.innerHTML += `
+        <tr>
+            <td>${c.name}</td>
+            <td><strong>#${c.code}</strong></td>
+            <td>$${c.total.toLocaleString('pt-BR')}</td>
+            <td>${c.visits}x</td>
+        </tr>
+        `;
+    });
 
-alert(`Sucesso! Lançado $${valorAtualNumerico.toLocaleString('pt-BR')} no passaporte #${code}.`);
-
-// Limpa os campos da barra inferior e reseta os serviços selecionados
-document.getElementById("clientName").value = "";
-document.getElementById("clientCode").value = "";
-resetar();
-renderClientes();
+    let rankingGeral = [...allClients].sort((a, b) => b.total - a.total);
+    document.getElementById("ranking").innerHTML = rankingGeral.slice(0, 5).map((c, i) => {
+        let medal = i === 0 ? "🥇 " : i === 1 ? "🥈 " : i === 2 ? "🥉 " : `#${i+1} `;
+        return `
+        <div class="rank-item">
+            <span>${medal} ${c.name} (#${c.code})</span>
+            <strong>$${c.total.toLocaleString('pt-BR')}</strong>
+        </div>`;
+    }).join("");
 }
 
-function renderClientes(){
-let search = document.getElementById("search").value?.toLowerCase() || "";
-let allClients = Object.values(clients);
-
-let dataFiltrada = allClients.filter(c=>c.name.toLowerCase().includes(search) || c.code.includes(search));
-let body = document.getElementById("tableBody");
-body.innerHTML = "";
-
-dataFiltrada.forEach(c=>{
-    body.innerHTML += `
-    <tr>
-    <td>${c.name}</td>
-    <td><strong>#${c.code}</strong></td>
-    <td>$${c.total.toLocaleString('pt-BR')}</td>
-    <td>${c.visits}x</td>
-    </tr>
-    `;
-});
-
-let rankingGeral = [...allClients].sort((a,b)=>b.total - a.total);
-document.getElementById("ranking").innerHTML = rankingGeral.slice(0,5).map((c,i)=>
-    `<div class="rank-item">
-        <span>${i+1}. ${c.name} (#${c.code})</span>
-        <strong>$${c.total.toLocaleString('pt-BR')}</strong>
-    </div>`
-).join("");
-}
-
-function copiarTotal(){
+function copiarTotal() {
     navigator.clipboard.writeText(document.getElementById("valorTotal").innerText);
-    alert("Total copiado!");
+    alert("Custo total copiado!");
 }
 
-function resetar(){
-document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false);
-document.querySelectorAll('input[type="number"]').forEach(i=>i.value=0);
-calcular();
+function resetar() {
+    document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+    document.querySelectorAll('input[type="number"]').forEach(i => i.value = 0);
+    calcular();
 }
 
+// Inicialização inicial
 renderClientes();
 </script>
 
