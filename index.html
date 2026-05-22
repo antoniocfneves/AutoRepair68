@@ -33,7 +33,7 @@ body {
     background-position: center;
     color: var(--text-main);
     font-size: 14px;
-    padding-bottom: 90px; /* Evita que o conteúdo suma atrás da barra fixa */
+    padding-bottom: 90px;
 }
 
 /* HEADER */
@@ -110,30 +110,31 @@ header h1 span {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* GRID DE PRODUTOS/SERVIÇOS */
+/* GRID DE PRODUTOS/SERVIÇOS CENTRALIZADO */
 .items-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 12px;
+    justify-content: center;
 }
 
 .item {
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
     backdrop-filter: blur(10px);
-    padding: 14px;
+    padding: 16px;
     border-radius: 8px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     transition: all 0.2s ease;
+    height: 60px;
 }
 .item:hover {
     border-color: rgba(255, 43, 43, 0.4);
     background: rgba(255, 43, 43, 0.02);
 }
 
-/* Quando o item está marcado (via JS) */
 .item.selected {
     border-color: var(--primary);
     box-shadow: 0 0 10px rgba(255, 43, 43, 0.15) inset, 0 2px 8px rgba(0,0,0,0.4);
@@ -146,6 +147,7 @@ header h1 span {
     gap: 12px;
     cursor: pointer;
     width: 100%;
+    height: 100%;
     font-weight: 500;
 }
 
@@ -153,7 +155,6 @@ header h1 span {
     color: var(--primary);
     font-weight: 700;
     margin-left: auto;
-    margin-right: 10px;
 }
 
 /* INPUTS CUSTOMIZADOS */
@@ -167,6 +168,7 @@ input[type="checkbox"] {
     cursor: pointer;
     position: relative;
     transition: all 0.15s;
+    flex-shrink: 0;
 }
 input[type="checkbox"]:checked {
     background: var(--primary);
@@ -196,6 +198,27 @@ input[type="number"] {
 input[type="number"]:focus {
     border-color: var(--primary);
     outline: none;
+}
+
+/* DESIGN SELETOR DE DESCONTO */
+.discount-select {
+    background: #111115;
+    border: 1px solid #27272a;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    outline: none;
+}
+.discount-select:focus {
+    border-color: var(--primary);
+}
+.discount-select option {
+    background: #111115;
+    color: white;
 }
 
 /* CLIENTES TAB DESIGN */
@@ -390,10 +413,7 @@ tr:hover td {
         <div class="items-grid">
             <div class="item"><label><input type="checkbox" value="5625" onchange="calcular()"> <span>Nitro Pequena</span> <span class="price-tag">$5.625</span></label></div>
             <div class="item"><label><input type="checkbox" value="20000" onchange="calcular()"> <span>Nitro Grande</span> <span class="price-tag">$20.000</span></label></div>
-            <div class="item">
-                <label><span>Refil Nitro</span> <span class="price-tag">$625</span></label>
-                <input type="number" value="0" min="0" data-price="625" oninput="calcular()">
-            </div>
+            <div class="item"><label><input type="checkbox" value="625" onchange="calcular()"> <span>Refil Nitro</span> <span class="price-tag">$625</span></label></div>
         </div>
     </div>
 
@@ -498,11 +518,18 @@ tr:hover td {
 <div class="dock-bar">
     <div class="dock-left">
         <div class="total-display">
-            <span>Subtotal Atual</span>
+            <span>Total com Desconto</span>
             <div id="valorTotal">$0</div>
         </div>
         
         <div class="dock-inputs">
+            <!-- Seletor de Desconto Adicionado -->
+            <select id="discountRate" class="discount-select" onchange="calcular()">
+                <option value="0">Sem Desconto</option>
+                <option value="5">5% de Desconto</option>
+                <option value="10">10% de Desconto</option>
+                <option value="15">15% de Desconto</option>
+            </select>
             <input id="clientName" placeholder="Nome do Cliente (Opcional)">
             <input id="clientCode" placeholder="ID / Passaporte (Obrigatório)">
         </div>
@@ -527,13 +554,13 @@ function openTab(id, el) {
 }
 
 function calcular() {
-    let total = 0;
+    let bruto = 0;
 
-    // Varre checkboxes, atualiza classe visual do contêiner pai (.item)
+    // Varre checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(i => {
         let itemContainer = i.closest('.item');
         if (i.checked) {
-            total += Number(i.value);
+            bruto += Number(i.value);
             if(itemContainer) itemContainer.classList.add('selected');
         } else {
             if(itemContainer) itemContainer.classList.remove('selected');
@@ -547,20 +574,24 @@ function calcular() {
         
         if (qtd < 0) { i.value = 0; qtd = 0; }
         
-        total += qtd * Number(i.dataset.price);
+        bruto += qtd * Number(i.dataset.price);
         
         if (qtd > 0) {
             if(itemContainer) itemContainer.classList.add('selected');
         } else {
-            // Só tira a classe se o checkbox (caso existisse no mesmo bloco) também não estivesse ativo
             if(itemContainer && !itemContainer.querySelector('input[type="checkbox"]')?.checked) {
                 itemContainer.classList.remove('selected');
             }
         }
     });
 
-    valorAtualNumerico = total;
-    document.getElementById("valorTotal").innerText = "$" + total.toLocaleString('pt-BR');
+    // Aplicação Automática do Desconto Selecionado
+    let descontoPercentual = Number(document.getElementById("discountRate").value);
+    let valorDescontado = bruto * (descontoPercentual / 100);
+    let totalComDesconto = bruto - valorDescontado;
+
+    valorAtualNumerico = totalComDesconto;
+    document.getElementById("valorTotal").innerText = "$" + totalComDesconto.toLocaleString('pt-BR');
 }
 
 function salvarOrcamento() {
@@ -581,11 +612,12 @@ function salvarOrcamento() {
 
     localStorage.setItem("clients", JSON.stringify(clients));
 
-    alert(`Ordem de serviço registrada!\nValor de $${valorAtualNumerico.toLocaleString('pt-BR')} adicionado ao ID #${code}.`);
+    alert(`Ordem de serviço registrada!\nValor com desconto de $${valorAtualNumerico.toLocaleString('pt-BR')} adicionado ao ID #${code}.`);
 
-    // Reseta entradas
+    // Reseta entradas e seletor de desconto
     document.getElementById("clientName").value = "";
     document.getElementById("clientCode").value = "";
+    document.getElementById("discountRate").value = "0";
     resetar();
     renderClientes();
 }
@@ -631,7 +663,6 @@ function resetar() {
     calcular();
 }
 
-// Inicialização inicial
 renderClientes();
 </script>
 
