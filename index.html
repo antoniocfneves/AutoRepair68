@@ -33,7 +33,12 @@ header h1{
 }
 
 /* TABS */
-.tabs{display:flex;overflow-x:auto;background:#111;}
+.tabs{
+    display:flex;
+    overflow-x:auto;
+    background:#111;
+}
+
 .tab{
     padding:10px 14px;
     border:none;
@@ -42,7 +47,11 @@ header h1{
     cursor:pointer;
     font-size:12px;
 }
-.tab.active{background:#ff2b2b;color:#000;}
+
+.tab.active{
+    background:#ff2b2b;
+    color:#000;
+}
 
 /* CONTENT */
 .content{display:none;padding:12px;}
@@ -95,7 +104,6 @@ input[type="number"]{
 .copy{background:#777;color:white;}
 .reset{background:#ff2b2b;color:white;}
 
-/* CLIENTE */
 .client-box{
     display:flex;
     gap:5px;
@@ -110,10 +118,7 @@ input[type="number"]{
     color:white;
 }
 
-/* DESCONTO */
-.discount{
-    width:60px;
-}
+.discount{width:60px;}
 
 </style>
 </head>
@@ -125,12 +130,14 @@ input[type="number"]{
 </header>
 
 <div class="tabs">
+
 <button class="tab active" onclick="openTab('nitro',this)">Nitro</button>
 <button class="tab" onclick="openTab('stage',this)">Stage</button>
 <button class="tab" onclick="openTab('reparo',this)">Reparos</button>
 <button class="tab" onclick="openTab('lockpick',this)">Lockpick</button>
 <button class="tab" onclick="openTab('guincho',this)">Guincho</button>
 <button class="tab" onclick="openTab('clientes',this)">Clientes</button>
+
 </div>
 
 <!-- NITRO -->
@@ -149,21 +156,40 @@ input[type="number"]{
 <!-- STAGE -->
 <div id="stage" class="content">
 
-<div class="item"><label><input type="checkbox" value="7500" onchange="calcular()">ECU — $7.500</label></div>
-<div class="item"><label><input type="checkbox" value="13750" onchange="calcular()">Kit Freio — $13.750</label></div>
-<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Filtro — $9.400</label></div>
-<div class="item"><label><input type="checkbox" value="15000" onchange="calcular()">Escape — $15.000</label></div>
-<div class="item"><label><input type="checkbox" value="18800" onchange="calcular()">Turbo — $18.800</label></div>
+<div class="item"><label><input type="checkbox" value="7500" onchange="calcular()">ECU — $7.500 (STAGE 1)</label></div>
+<div class="item"><label><input type="checkbox" value="13750" onchange="calcular()">Kit Freio — $13.750 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Filtro de Ar — $9.400 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="15000" onchange="calcular()">Escape Esportivo — $15.000 (STAGE 2)</label></div>
+<div class="item"><label><input type="checkbox" value="18800" onchange="calcular()">Turbo — $18.800 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Intercooler — $9.400 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Suspensão 5 — $9.400 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Racing Clutch — $9.400 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Coletor de Admissão — $9.400 (STAGE 3)</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Sistema de Combustível — $9.400 (STAGE 3)</label></div>
 
 </div>
 
-<!-- REPARO -->
+<!-- REPAROS -->
 <div id="reparo" class="content">
 
 <div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo ECU — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Freio — $750</label></div>
-<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Filtro — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Kit Freio — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Filtro de Ar — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Escape Esportivo — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Turbo — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Intercooler — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Suspensão 5 — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Racing Clutch — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Coletor de Admissão — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Sistema de Combustível — $750</label></div>
+
 <div class="item"><label><input type="checkbox" value="200" onchange="calcular()">Lataria — $200</label></div>
+<div class="item"><label><input type="checkbox" value="700" onchange="calcular()">Motor — $700</label></div>
+
+<div class="item">
+<label>Pneu</label>
+<input type="number" value="0" data-price="125" oninput="calcular()">
+</div>
 
 </div>
 
@@ -180,13 +206,19 @@ input[type="number"]{
 <input type="number" value="0" data-price="2500" oninput="calcular()">
 </div>
 
+<div class="item">
+<label>Lockpick Avançada</label>
+<input type="number" value="0" data-price="500" oninput="calcular()">
+</div>
+
 </div>
 
 <!-- GUINCHO -->
 <div id="guincho" class="content">
 
-<div class="item"><label><input type="checkbox" value="1500" onchange="calcular()">Los Santos</label></div>
-<div class="item"><label><input type="checkbox" value="500" onchange="calcular()">Sandy</label></div>
+<div class="item"><label><input type="checkbox" value="1500" onchange="calcular()">Los Santos — $1.500</label></div>
+<div class="item"><label><input type="checkbox" value="500" onchange="calcular()">Sandy/Grape — $500</label></div>
+<div class="item"><label><input type="checkbox" value="1000" onchange="calcular()">Paleto — $1.000</label></div>
 
 </div>
 
@@ -216,7 +248,6 @@ Salvar Cliente
 
 <div class="client-box">
 <input id="clienteAtual" placeholder="Cod Cliente">
-
 <input id="desconto" class="discount" placeholder="%">
 </div>
 
@@ -234,7 +265,7 @@ Salvar Cliente
 
 let clients = JSON.parse(localStorage.getItem("clients") || "{}");
 
-function openTab(id, el){
+function openTab(id,el){
 document.querySelectorAll('.content').forEach(e=>e.classList.remove('active'));
 document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
 document.getElementById(id).classList.add('active');
@@ -256,8 +287,8 @@ total += Number(i.value) * Number(i.dataset.price);
 let desc = Number(document.getElementById("desconto").value || 0);
 total = total - (total * desc / 100);
 
-document.getElementById("valorTotal").innerText = "$" + total.toLocaleString('pt-BR');
-
+document.getElementById("valorTotal").innerText =
+"$" + total.toLocaleString('pt-BR');
 }
 
 function salvarCliente(){
@@ -266,11 +297,10 @@ let code = document.getElementById("clientCode").value;
 let name = document.getElementById("clientName").value;
 
 if(!clients[code]){
-clients[code] = {name, visits:0, total:0, history:[]};
+clients[code] = {name,visits:0,total:0,history:[]};
 }
 
-localStorage.setItem("clients", JSON.stringify(clients));
-alert("Cliente salvo");
+localStorage.setItem("clients",JSON.stringify(clients));
 renderClientes();
 }
 
@@ -289,9 +319,9 @@ date:new Date().toLocaleString(),
 value:total
 });
 
-localStorage.setItem("clients", JSON.stringify(clients));
+localStorage.setItem("clients",JSON.stringify(clients));
 
-alert("Orçamento salvo no cliente!");
+alert("Salvo!");
 renderClientes();
 }
 
@@ -301,15 +331,12 @@ let div = document.getElementById("listaClientes");
 div.innerHTML = "";
 
 Object.keys(clients).forEach(c=>{
-
 div.innerHTML += `
-<div style="margin-top:10px;background:#111;padding:8px;">
+<div style="background:#111;margin-top:8px;padding:8px;">
 <b>${c} - ${clients[c].name}</b><br>
 Visitas: ${clients[c].visits}<br>
 Total: $${clients[c].total}
-</div>
-`;
-
+</div>`;
 });
 
 }
@@ -319,8 +346,8 @@ navigator.clipboard.writeText(document.getElementById("valorTotal").innerText);
 }
 
 function resetar(){
-document.querySelectorAll("input[type=checkbox]").forEach(i=>i.checked=false);
-document.querySelectorAll("input[type=number]").forEach(i=>i.value=0);
+document.querySelectorAll('input[type=checkbox]').forEach(i=>i.checked=false);
+document.querySelectorAll('input[type=number]').forEach(i=>i.value=0);
 calcular();
 }
 
