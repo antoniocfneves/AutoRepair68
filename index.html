@@ -1,140 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Auto Repair</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial;
     background:
     linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.95)),
     url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
     background-size:cover;
-    background-position:center;
     background-attachment:fixed;
     color:white;
-    min-height:100vh;
-    font-size:14px; /* ↓ menor */
+    font-size:13px;
 }
 
 /* HEADER */
 header{
-    background:rgba(0,0,0,0.95);
-    padding:15px;
+    padding:12px;
     text-align:center;
-    border-bottom:3px solid #ff2b2b;
-    box-shadow:0 0 15px #ff2b2b55;
+    background:#000;
+    border-bottom:2px solid #ff2b2b;
 }
-
 header h1{
-    font-size:24px;
     color:#ff2b2b;
-    text-shadow:0 0 10px #ff2b2b;
-}
-
-header p{
-    margin-top:5px;
-    color:#aaa;
-    font-size:12px;
+    font-size:22px;
 }
 
 /* TABS */
-.tabs{
-    display:flex;
-    overflow-x:auto;
-    background:#111;
-    border-bottom:2px solid #ff2b2b;
-}
-
+.tabs{display:flex;overflow-x:auto;background:#111;}
 .tab{
-    flex:none;
-    padding:10px 15px; /* ↓ menor */
+    padding:10px 14px;
+    border:none;
     background:#111;
     color:white;
-    border:none;
     cursor:pointer;
-    transition:0.3s;
-    font-size:13px;
-    font-weight:bold;
+    font-size:12px;
 }
-
-.tab:hover{
-    background:#1d1d1d;
-}
-
-.tab.active{
-    background:#ff2b2b;
-    color:black;
-}
+.tab.active{background:#ff2b2b;color:#000;}
 
 /* CONTENT */
-.content{
-    display:none;
-    padding:15px;
-    animation:fade 0.3s;
-}
-
-.content.active{
-    display:block;
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateY(10px);}
-    to{opacity:1; transform:translateY(0);}
-}
+.content{display:none;padding:12px;}
+.content.active{display:block;}
 
 /* ITEM */
 .item{
-    background:rgba(20,20,20,0.92);
-    border:1px solid #333;
-    border-left:4px solid #ff2b2b;
+    background:#111;
     padding:10px;
-    margin-bottom:10px;
-    border-radius:10px;
+    margin-bottom:8px;
+    border-left:4px solid #ff2b2b;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    transition:0.3s;
-}
-
-.item:hover{
-    transform:scale(1.01);
-    border-color:#ff2b2b;
-    box-shadow:0 0 10px #ff2b2b44;
-}
-
-label{
-    font-size:14px;
-}
-
-input[type="checkbox"]{
-    transform:scale(1.1);
-    margin-right:8px;
 }
 
 input[type="number"]{
-    width:60px;
-    padding:6px;
-    border:none;
-    border-radius:6px;
+    width:55px;
+    padding:5px;
     background:#222;
+    border:none;
     color:white;
     text-align:center;
-    font-size:13px;
 }
 
-/* TOTAL FIXO EM BAIXO */
+/* TOTAL FIXO */
 .total-box{
     position:fixed;
     bottom:0;
@@ -142,67 +76,43 @@ input[type="number"]{
     width:100%;
     background:#000;
     border-top:2px solid #ff2b2b;
-    box-shadow:0 -5px 20px #ff2b2b55;
-    padding:10px 15px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
+    align-items:center;
+    padding:8px;
+    gap:10px;
 }
 
-.total-box h2{
-    color:#ff2b2b;
-    font-size:14px;
-}
-
-#valorTotal{
-    font-size:20px;
-    font-weight:bold;
-    color:white;
-}
-
-/* BOTÕES */
-.buttons{
-    display:flex;
-    gap:8px;
-}
+#valorTotal{font-size:18px;font-weight:bold;}
 
 .buttons button{
-    padding:8px 12px;
+    padding:6px 10px;
     border:none;
-    border-radius:8px;
     cursor:pointer;
-    font-weight:bold;
-    font-size:12px;
+    font-size:11px;
 }
 
-.copy{
-    background:#777;
+.copy{background:#777;color:white;}
+.reset{background:#ff2b2b;color:white;}
+
+/* CLIENTE */
+.client-box{
+    display:flex;
+    gap:5px;
+    align-items:center;
+}
+
+.client-box input{
+    width:90px;
+    padding:5px;
+    background:#222;
+    border:none;
     color:white;
 }
 
-.reset{
-    background:#ff2b2b;
-    color:white;
-}
-
-.buttons button:hover{
-    opacity:0.85;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-
-    .item{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:8px;
-    }
-
-    .total-box{
-        flex-direction:column;
-        gap:8px;
-        text-align:center;
-    }
+/* DESCONTO */
+.discount{
+    width:60px;
 }
 
 </style>
@@ -211,78 +121,210 @@ input[type="number"]{
 <body>
 
 <header>
-    <h1>🚗 AUTO REPAIR</h1>
-    <p>Sistema de orçamento automático</p>
+<h1>🚗 AUTO REPAIR</h1>
 </header>
 
 <div class="tabs">
+<button class="tab active" onclick="openTab('nitro',this)">Nitro</button>
+<button class="tab" onclick="openTab('stage',this)">Stage</button>
+<button class="tab" onclick="openTab('reparo',this)">Reparos</button>
+<button class="tab" onclick="openTab('lockpick',this)">Lockpick</button>
+<button class="tab" onclick="openTab('guincho',this)">Guincho</button>
+<button class="tab" onclick="openTab('clientes',this)">Clientes</button>
+</div>
 
-<button class="tab active" onclick="openTab('nitro', this)">Nitro</button>
-<button class="tab" onclick="openTab('stage', this)">Stage</button>
-<button class="tab" onclick="openTab('reparo', this)">Reparos</button>
-<button class="tab" onclick="openTab('lockpick', this)">Lockpick</button>
-<button class="tab" onclick="openTab('guincho', this)">Guincho</button>
+<!-- NITRO -->
+<div id="nitro" class="content active">
+
+<div class="item"><label><input type="checkbox" value="5625" onchange="calcular()">Garrafa Nitro Pequena — $5.625</label></div>
+<div class="item"><label><input type="checkbox" value="20000" onchange="calcular()">Garrafa Nitro Grande — $20.000</label></div>
+
+<div class="item">
+<label>Refil Nitro</label>
+<input type="number" value="0" data-price="625" oninput="calcular()">
+</div>
 
 </div>
 
-<!-- CONTEÚDO (igual ao seu original, sem mudança estrutural) -->
-<!-- ... mantenha todas suas sections aqui exatamente iguais ... -->
+<!-- STAGE -->
+<div id="stage" class="content">
 
+<div class="item"><label><input type="checkbox" value="7500" onchange="calcular()">ECU — $7.500</label></div>
+<div class="item"><label><input type="checkbox" value="13750" onchange="calcular()">Kit Freio — $13.750</label></div>
+<div class="item"><label><input type="checkbox" value="9400" onchange="calcular()">Filtro — $9.400</label></div>
+<div class="item"><label><input type="checkbox" value="15000" onchange="calcular()">Escape — $15.000</label></div>
+<div class="item"><label><input type="checkbox" value="18800" onchange="calcular()">Turbo — $18.800</label></div>
+
+</div>
+
+<!-- REPARO -->
+<div id="reparo" class="content">
+
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo ECU — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Freio — $750</label></div>
+<div class="item"><label><input type="checkbox" value="750" onchange="calcular()">Reparo Filtro — $750</label></div>
+<div class="item"><label><input type="checkbox" value="200" onchange="calcular()">Lataria — $200</label></div>
+
+</div>
+
+<!-- LOCKPICK -->
+<div id="lockpick" class="content">
+
+<div class="item">
+<label>Lockpick</label>
+<input type="number" value="0" data-price="250" oninput="calcular()">
+</div>
+
+<div class="item">
+<label>Kit Reparo</label>
+<input type="number" value="0" data-price="2500" oninput="calcular()">
+</div>
+
+</div>
+
+<!-- GUINCHO -->
+<div id="guincho" class="content">
+
+<div class="item"><label><input type="checkbox" value="1500" onchange="calcular()">Los Santos</label></div>
+<div class="item"><label><input type="checkbox" value="500" onchange="calcular()">Sandy</label></div>
+
+</div>
+
+<!-- CLIENTES -->
+<div id="clientes" class="content">
+
+<div class="item">
+<label>Código</label>
+<input id="clientCode">
+</div>
+
+<div class="item">
+<label>Nome</label>
+<input id="clientName">
+</div>
+
+<button onclick="salvarCliente()" style="padding:8px;background:#ff2b2b;border:none;color:black;">
+Salvar Cliente
+</button>
+
+<div id="listaClientes"></div>
+
+</div>
+
+<!-- TOTAL -->
 <div class="total-box">
 
-<h2>TOTAL</h2>
+<div class="client-box">
+<input id="clienteAtual" placeholder="Cod Cliente">
+
+<input id="desconto" class="discount" placeholder="%">
+</div>
+
 <div id="valorTotal">$0</div>
 
 <div class="buttons">
 <button class="copy" onclick="copiarTotal()">Copiar</button>
 <button class="reset" onclick="resetar()">Resetar</button>
+<button class="reset" onclick="salvarOrcamento()">Salvar</button>
 </div>
 
 </div>
 
 <script>
 
-function openTab(tabId, element){
+let clients = JSON.parse(localStorage.getItem("clients") || "{}");
 
-    document.querySelectorAll('.content')
-    .forEach(tab => tab.classList.remove('active'));
-
-    document.querySelectorAll('.tab')
-    .forEach(btn => btn.classList.remove('active'));
-
-    document.getElementById(tabId).classList.add('active');
-    element.classList.add('active');
+function openTab(id, el){
+document.querySelectorAll('.content').forEach(e=>e.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+el.classList.add('active');
 }
 
 function calcular(){
 
-    let total = 0;
+let total = 0;
 
-    document.querySelectorAll('input[type="checkbox"]').forEach(item=>{
-        if(item.checked) total += Number(item.value);
-    });
+document.querySelectorAll('input[type="checkbox"]').forEach(i=>{
+if(i.checked) total += Number(i.value);
+});
 
-    document.querySelectorAll('input[type="number"]').forEach(item=>{
-        total += Number(item.value) * Number(item.dataset.price);
-    });
+document.querySelectorAll('input[type="number"]').forEach(i=>{
+total += Number(i.value) * Number(i.dataset.price);
+});
 
-    document.getElementById('valorTotal').innerText =
-    "$" + total.toLocaleString('pt-BR');
+let desc = Number(document.getElementById("desconto").value || 0);
+total = total - (total * desc / 100);
+
+document.getElementById("valorTotal").innerText = "$" + total.toLocaleString('pt-BR');
+
+}
+
+function salvarCliente(){
+
+let code = document.getElementById("clientCode").value;
+let name = document.getElementById("clientName").value;
+
+if(!clients[code]){
+clients[code] = {name, visits:0, total:0, history:[]};
+}
+
+localStorage.setItem("clients", JSON.stringify(clients));
+alert("Cliente salvo");
+renderClientes();
+}
+
+function salvarOrcamento(){
+
+let code = document.getElementById("clienteAtual").value;
+let total = document.getElementById("valorTotal").innerText;
+
+if(!clients[code]) return alert("Cliente não encontrado");
+
+clients[code].visits++;
+clients[code].total += Number(total.replace("$","").replace(".",""));
+
+clients[code].history.push({
+date:new Date().toLocaleString(),
+value:total
+});
+
+localStorage.setItem("clients", JSON.stringify(clients));
+
+alert("Orçamento salvo no cliente!");
+renderClientes();
+}
+
+function renderClientes(){
+
+let div = document.getElementById("listaClientes");
+div.innerHTML = "";
+
+Object.keys(clients).forEach(c=>{
+
+div.innerHTML += `
+<div style="margin-top:10px;background:#111;padding:8px;">
+<b>${c} - ${clients[c].name}</b><br>
+Visitas: ${clients[c].visits}<br>
+Total: $${clients[c].total}
+</div>
+`;
+
+});
+
 }
 
 function copiarTotal(){
-    let valor = document.getElementById('valorTotal').innerText;
-    navigator.clipboard.writeText(valor);
-    alert("Total copiado: " + valor);
+navigator.clipboard.writeText(document.getElementById("valorTotal").innerText);
 }
 
 function resetar(){
-
-    document.querySelectorAll('input[type="checkbox"]').forEach(i=>i.checked=false);
-    document.querySelectorAll('input[type="number"]').forEach(i=>i.value=0);
-
-    calcular();
+document.querySelectorAll("input[type=checkbox]").forEach(i=>i.checked=false);
+document.querySelectorAll("input[type=number]").forEach(i=>i.value=0);
+calcular();
 }
+
+renderClientes();
 
 </script>
 
