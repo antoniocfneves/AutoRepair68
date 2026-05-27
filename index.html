@@ -461,18 +461,20 @@ tr:hover td {
     <!-- ===================== REPAROS ===================== -->
     <div id="reparo" class="content">
         <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo ECU</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Freio</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Filtro</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Escape</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Turbo</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Intercooler</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Suspensão</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Clutch</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Coletor</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="750" onchange="calcular()"> <span>Reparo Combustível</span> <span class="price-tag">$750</span></label></div>
-            <div class="item"><label><input type="checkbox" value="200" onchange="calcular()"> <span>Lataria</span> <span class="price-tag">$200</span></label></div>
-            <div class="item"><label><input type="checkbox" value="700" onchange="calcular()"> <span>Motor</span> <span class="price-tag">$700</span></label></div>
+            <div class="item"><label><input type="checkbox" value="200" onchange="calcular()"> <span>Reparo Lataria</span> <span class="price-tag">$200</span></label></div>
+            <div class="item"><label><input type="checkbox" value="700" onchange="calcular()"> <span>Reparo Motor</span> <span class="price-tag">$700</span></label></div>
+            <div class="item">
+                <label><span>Reparo Stage</span> <span class="price-tag">$750</span></label>
+                <input type="number" value="0" min="0" data-price="750" oninput="calcular()">
+            </div>
+            <div class="item">
+                <label><span>Tirar Peça Stage</span> <span class="price-tag">$150</span></label>
+                <input type="number" value="0" min="0" data-price="150" oninput="calcular()">
+            </div>
+            <div class="item">
+                <label><span>Colocar Peça Stage</span> <span class="price-tag">$150</span></label>
+                <input type="number" value="0" min="0" data-price="150" oninput="calcular()">
+            </div>
             <div class="item">
                 <label><span>Pneu</span> <span class="price-tag">$125</span></label>
                 <input type="number" value="0" min="0" data-price="125" oninput="calcular()">
