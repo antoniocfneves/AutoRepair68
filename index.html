@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auto Repair - Dashboard</title>
 
+<!-- INCLUSÃO DOS SCRIPTS DO FIREBASE (Versão estável compatível com navegadores) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <style>
 :root {
     --primary: #ff2b2b;
@@ -529,8 +533,6 @@ tr:hover td {
             <div class="panel panel-right">
                 <h3>🏆 Melhores Clientes</h3>
                 <div id="ranking"></div>
-                
-                <!-- Botão Físico Adicionado Aqui -->
                 <button class="btn-db-clear" onclick="resetarHistoricoClientes()">⚠️ Zerar Banco de Dados</button>
             </div>
         </div>
@@ -566,8 +568,23 @@ tr:hover td {
 </div>
 
 <script>
+// CONFIGURAÇÃO DO SEU FIREBASE
+const firebaseConfig = {
+    databaseURL: "https://autorepair-68-default-rtdb.firebaseio.com/"
+};
+
+// Inicializa o Firebase no painel
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 let valorAtualNumerico = 0;
-let clients = JSON.parse(localStorage.getItem("clients") || "{}");
+let clients = {}; // A base de dados inicia vazia e sincroniza com a nuvem
+
+// Escuta mudanças no banco de dados em tempo real
+database.ref("clients").on("value", (snapshot) => {
+    clients = snapshot.val() || {};
+    renderClientes();
+});
 
 function openTab(id, el) {
     document.querySelectorAll('.content').forEach(e => e.classList.remove('active'));
@@ -579,7 +596,6 @@ function openTab(id, el) {
 function calcular() {
     let bruto = 0;
 
-    // Varre checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(i => {
         let itemContainer = i.closest('.item');
         if (i.checked) {
@@ -590,7 +606,6 @@ function calcular() {
         }
     });
 
-    // Varre inputs numéricos
     document.querySelectorAll('input[type="number"]').forEach(i => {
         let qtd = Number(i.value);
         let itemContainer = i.closest('.item');
@@ -608,7 +623,6 @@ function calcular() {
         }
     });
 
-    // Aplicação Automática do Desconto Selecionado
     let descontoPercentual = Number(document.getElementById("discountRate").value);
     let valorDescontado = bruto * (descontoPercentual / 100);
     let totalComDesconto = bruto - valorDescontado;
@@ -624,31 +638,33 @@ function salvarOrcamento() {
     if (!code) return alert("Erro: O Passaporte/ID do cliente é obrigatório para registrar!");
     if (valorAtualNumerico === 0) return alert("Erro: Não é possível registrar uma ordem com valor zerado!");
 
-    if (!clients[code]) {
-        clients[code] = { name: name || "Cliente Oculto", code, total: 0, visits: 0 };
-    }
+    // Se o cliente não existir localmente, cria a estrutura inicial
+    let clientData = clients[code] || { name: "Cliente Oculto", code: code, total: 0, visits: 0 };
+    
+    if (name) clientData.name = name;
+    clientData.total += valorAtualNumerico;
+    clientData.visits++;
 
-    if (name) clients[code].name = name;
-
-    clients[code].total += valorAtualNumerico;
-    clients[code].visits++;
-
-    localStorage.setItem("clients", JSON.stringify(clients));
-
-    alert(`Ordem de serviço registrada!\nValor com desconto de $${valorAtualNumerico.toLocaleString('pt-BR')} adicionado ao ID #${code}.`);
-
-    document.getElementById("clientName").value = "";
-    document.getElementById("clientCode").value = "";
-    document.getElementById("discountRate").value = "0";
-    resetar();
-    renderClientes();
+    // Salva direto no Firebase Online
+    database.ref("clients/" + code).set(clientData)
+    .then(() => {
+        alert(`Ordem de serviço registrada na nuvem!\nValor de $${valorAtualNumerico.toLocaleString('pt-BR')} enviado ao ID #${code}.`);
+        document.getElementById("clientName").value = "";
+        document.getElementById("clientCode").value = "";
+        document.getElementById("discountRate").value = "0";
+        resetar();
+    })
+    .catch((error) => {
+        alert("Erro ao salvar! Certifique-se de que as regras do seu Firebase estão configuradas como públicas (.read: true, .write: true).");
+        console.error(error);
+    });
 }
 
 function renderClientes() {
     let search = document.getElementById("search").value?.toLowerCase() || "";
     let allClients = Object.values(clients);
 
-    let dataFiltrada = allClients.filter(c => c.name.toLowerCase().includes(search) || c.code.includes(search));
+    let dataFiltrada = allClients.filter(c => c.name.toLowerCase().includes(search) || String(c.code).includes(search));
     let body = document.getElementById("tableBody");
     body.innerHTML = "";
 
@@ -685,17 +701,15 @@ function resetar() {
     calcular();
 }
 
-// FUNÇÃO DE LIMPEZA DO BANCO DE DADOS
+// FUNÇÃO DE LIMPEZA GERAL ONLINE
 function resetarHistoricoClientes() {
-    if (confirm("⚠️ ATENÇÃO: Você tem certeza que deseja APAGAR DEFINITIVAMENTE todo o histórico de clientes e o ranking da oficina?")) {
-        localStorage.removeItem("clients");
-        clients = {};
-        renderClientes();
-        alert("Histórico de clientes deletado com sucesso!");
+    if (confirm("⚠️ ATENÇÃO GLOBAL: Você vai APAGAR DEFINITIVAMENTE todo o histórico de clientes da nuvem. Isso limpará o painel de TODOS OS MECÂNICOS. Deseja continuar?")) {
+        database.ref("clients").remove()
+        .then(() => {
+            alert("Banco de dados em nuvem limpo com sucesso!");
+        });
     }
 }
-
-renderClientes();
 </script>
 
 </body>
