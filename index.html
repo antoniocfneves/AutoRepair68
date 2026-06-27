@@ -3,145 +3,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Repair - Dashboard</title>
+<title>Blaine County Auto Repair</title>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <style>
 :root {
-    --primary: #ff2b2b;
-    --primary-glow: rgba(255, 43, 43, 0.3);
-    --bg-dark: #0a0a0c;
-    --panel-bg: rgba(20, 20, 25, 0.85);
-    --panel-border: rgba(255, 255, 255, 0.08);
-    --input-bg: #16161c;
-    --text-main: #f3f4f6;
-    --text-muted: #9ca3af;
+    --primary: #8b5a2b; /* Marrom Couro / Ferrugem */
+    --primary-light: #a67c52;
+    --bg-main: #f4f4f6; /* Cinza claro de oficina limpa */
+    --panel-bg: #ffffff;
+    --panel-border: #dcdcdc;
+    --input-bg: #fafafa;
+    --text-main: #2d3135; /* Cinza escuro industrial */
+    --text-muted: #757d85;
+    --accent-steel: #4a525a; /* Cinza metálico */
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
 }
 
 body {
-    background: 
-        linear-gradient(rgba(10, 10, 12, 0.92), rgba(5, 5, 5, 0.97)),
-        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop');
+    background-color: var(--bg-main);
+    background-image: 
+        linear-gradient(rgba(244, 244, 246, 0.93), rgba(244, 244, 246, 0.97)),
+        url('https://images.unsplash.com/photo-1617696618050-b0fef0c666af?q=80&w=2070&auto=format&fit=crop');
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
     color: var(--text-main);
     font-size: 14px;
-    padding-bottom: 150px;
+    padding-bottom: 170px; /* Espaço para o novo painel inferior */
 }
 
-/* HEADER */
+/* HEADER ESTILO RÚSTICO/INDUSTRIAL */
 header {
-    padding: 20px;
+    padding: 30px 20px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--panel-border);
+    background: var(--accent-steel);
+    border-bottom: 4px solid var(--primary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 header h1 {
-    color: var(--text-main);
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 2px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 header h1 span {
-    color: var(--primary);
-    text-shadow: 0 0 12px var(--primary-glow);
+    color: var(--primary-light);
 }
 
-/* TABS SYSTEM */
+/* SISTEMA DE ABAS (TABS) */
 .tabs {
     display: flex;
     justify-content: center;
-    background: rgba(15, 15, 20, 0.8);
-    backdrop-filter: blur(5px);
-    border-bottom: 2px solid #111;
-    padding: 5px 10px 0 10px;
-    gap: 4px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--panel-border);
+    padding: 0 10px;
+    gap: 5px;
     overflow-x: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 .tab {
-    padding: 12px 20px;
+    padding: 15px 25px;
     background: transparent;
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-    border-radius: 6px 6px 0 0;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
     transition: all 0.2s ease;
 }
 .tab:hover {
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.03);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.01);
 }
 .tab.active {
-    background: var(--primary);
-    color: #000;
-    font-weight: 700;
-    box-shadow: 0 -4px 12px var(--primary-glow);
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+/* BARRA DE PESQUISA RÁPIDA DE ITENS */
+.search-container {
+    max-width: 1200px;
+    margin: 20px auto 0 auto;
+    padding: 0 20px;
+}
+.item-search {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-main);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+.item-search:focus {
+    border-color: var(--primary);
+    outline: none;
 }
 
 /* CONTAINER PRINCIPAL */
 .container {
     max-width: 1200px;
-    margin: 25px auto;
+    margin: 15px auto;
     padding: 0 20px;
 }
 
-/* CONTENT BLOCKS */
 .content {
     display: none;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.2s ease-in-out;
 }
 .content.active {
     display: block;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* GRID DE PRODUTOS/SERVIÇOS CENTRALIZADO */
+/* GRID DE PRODUTOS */
 .items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 15px;
 }
 
 .item {
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
-    backdrop-filter: blur(10px);
     padding: 16px;
     border-radius: 8px;
     display: flex;
     align-items: center;
-    justify-content: center;
     transition: all 0.2s ease;
-    height: 60px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 .item:hover {
-    border-color: rgba(255, 43, 43, 0.4);
-    background: rgba(255, 43, 43, 0.02);
+    border-color: var(--primary-light);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 .item.selected {
     border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(255, 43, 43, 0.15) inset, 0 2px 8px rgba(0,0,0,0.4);
-    background: rgba(255, 43, 43, 0.04);
+    background: rgba(139, 90, 43, 0.04);
 }
 
 .item label {
@@ -150,22 +167,23 @@ header h1 span {
     gap: 12px;
     cursor: pointer;
     width: 100%;
-    height: 100%;
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-main);
 }
 
 .item .price-tag {
     color: var(--primary);
-    font-weight: 700;
+    font-weight: 800;
     margin-left: auto;
+    padding-right: 5px;
 }
 
 /* INPUTS CUSTOMIZADOS */
 input[type="checkbox"] {
     appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #4b5563;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--panel-border);
     border-radius: 4px;
     background: var(--input-bg);
     cursor: pointer;
@@ -180,8 +198,8 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::after {
     content: "✓";
     position: absolute;
-    color: black;
-    font-size: 13px;
+    color: white;
+    font-size: 14px;
     font-weight: 900;
     top: 50%;
     left: 50%;
@@ -190,163 +208,141 @@ input[type="checkbox"]:checked::after {
 
 input[type="number"] {
     background: var(--input-bg);
-    border: 1px solid #374151;
-    color: white;
-    padding: 6px;
+    border: 1px solid var(--panel-border);
+    color: var(--text-main);
+    padding: 8px;
     text-align: center;
-    width: 65px;
+    width: 60px;
     border-radius: 6px;
-    font-weight: bold;
+    font-weight: 700;
 }
 input[type="number"]:focus {
     border-color: var(--primary);
     outline: none;
 }
 
-/* DESIGN SELETOR DE DESCONTO */
+/* COMBO BOX DESCONTO */
 .discount-select {
-    background: #111115;
-    border: 1px solid #27272a;
-    color: white;
-    padding: 10px 14px;
+    background: #ffffff;
+    border: 1px solid var(--panel-border);
+    color: var(--text-main);
+    padding: 12px;
     border-radius: 8px;
-    font-size: 13px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: border-color 0.2s;
     outline: none;
 }
 .discount-select:focus {
     border-color: var(--primary);
 }
 
-/* CLIENTES TAB DESIGN */
+/* HISTÓRICO DE CLIENTES */
 .clients-container {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
 }
-.panel-left {
-    flex: 2;
-    min-width: 320px;
-}
-.panel-right {
-    flex: 1;
-    min-width: 300px;
-}
+.panel-left { flex: 2; min-width: 320px; }
+.panel-right { flex: 1; min-width: 300px; }
 .panel {
     background: var(--panel-bg);
     border: 1px solid var(--panel-border);
-    padding: 20px;
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
 }
 .panel h3 {
     font-size: 16px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-bottom: 1px solid var(--panel-border);
-    padding-bottom: 8px;
+    color: var(--accent-steel);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 6px;
 }
 
 .search {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     background: var(--input-bg);
-    border: 1px solid #27272a;
-    color: white;
-    padding: 10px 14px;
+    border: 1px solid var(--panel-border);
+    padding: 12px;
     border-radius: 8px;
 }
-.search:focus { border-color: var(--primary); outline: none; }
 
-/* RECORDE DE TABELAS */
-.table-responsive {
-    overflow-x: auto;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #222;
-}
+.table-responsive { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 14px 12px; text-align: left; border-bottom: 1px solid var(--panel-border); }
 th {
-    background: rgba(0,0,0,0.3);
-    color: var(--primary);
+    background: var(--bg-main);
+    color: var(--accent-steel);
     font-weight: 700;
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 /* RANKING */
 .rank-item {
-    padding: 12px;
-    background: rgba(0,0,0,0.2);
+    padding: 14px;
+    background: var(--bg-main);
     border-radius: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 3px solid #3b82f6;
+    border-left: 4px solid var(--accent-steel);
 }
-.rank-item:nth-child(1) { border-left-color: #ffd700; background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent); }
+.rank-item:nth-child(1) { border-left-color: #d4af37; background: rgba(212, 175, 55, 0.05); }
 
-/* DOCK BAR INFERIOR */
+/* DOCK BAR INFERIOR ESTILO PRANCHETA METÁLICA */
 .dock-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(5, 5, 7, 0.95);
-    backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 43, 43, 0.4);
+    background: #ffffff;
+    border-top: 3px solid var(--primary);
     display: flex;
     flex-direction: column;
     z-index: 1000;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.08);
 }
 
 .dock-materials {
     display: flex;
     justify-content: center;
     gap: 15px;
-    padding: 8px 24px;
-    background: rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 24px;
+    background: var(--bg-main);
+    border-bottom: 1px solid var(--panel-border);
     flex-wrap: wrap;
 }
 .material-badge {
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--text-muted);
-    background: #111115;
-    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent-steel);
+    background: #ffffff;
+    padding: 6px 14px;
     border-radius: 6px;
     border: 1px solid var(--panel-border);
 }
 .material-badge span {
-    color: #55ff55;
-    margin-left: 5px;
-    font-family: monospace;
+    color: var(--primary);
+    margin-left: 6px;
 }
 
 .dock-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 24px;
+    padding: 16px 24px;
     gap: 20px;
 }
 
 .dock-left {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 30px;
     flex: 1;
 }
 
@@ -355,59 +351,60 @@ th {
     flex-direction: column;
 }
 .total-display span {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     color: var(--text-muted);
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
 }
 #valorTotal {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--primary);
-    text-shadow: 0 0 10px var(--primary-glow);
+    font-size: 30px;
+    font-weight: 900;
+    color: var(--text-main);
     line-height: 1;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 .dock-inputs {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex: 1;
-    max-width: 480px;
+    max-width: 520px;
 }
 .dock-inputs input {
     flex: 1;
-    background: #111115;
-    border: 1px solid #27272a;
-    color: white;
-    padding: 10px 14px;
+    background: var(--input-bg);
+    border: 1px solid var(--panel-border);
+    color: var(--text-main);
+    padding: 12px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
 }
 .dock-inputs input:focus { border-color: var(--primary); outline: none; }
 
-.dock-buttons { display: flex; gap: 8px; }
+/* BOTÕES */
+.dock-buttons { display: flex; gap: 10px; }
 .btn {
-    padding: 10px 18px;
+    padding: 12px 22px;
     border: none;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     border-radius: 8px;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    text-transform: uppercase;
 }
-.btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+.btn:hover { transform: translateY(-1px); filter: brightness(0.95); }
 
-.btn-copy { background: #27272a; color: var(--text-main); border: 1px solid #3f3f46; }
-.btn-reset { background: #3f1212; color: #fca5a5; border: 1px solid #7f1d1d; }
-.btn-save { background: #22c55e; color: #052e16; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
+.btn-copy { background: #e2e8f0; color: var(--accent-steel); }
+.btn-reset { background: #fee2e2; color: #991b1b; }
+.btn-save { background: var(--primary); color: #ffffff; box-shadow: 0 4px 10px rgba(139, 90, 43, 0.2); }
 
 .btn-db-clear {
-    background: #3f1212; color: #fca5a5; border: 1px solid #7f1d1d; 
-    padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; 
+    background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; 
+    padding: 10px; border-radius: 6px; cursor: pointer; font-weight: 700; 
     margin-top: 15px; width: 100%; font-size: 12px; text-transform: uppercase;
 }
 </style>
@@ -416,7 +413,7 @@ th {
 <body>
 
 <header>
-    <h1>🚗 AUTO <span>REPAIR</span></h1>
+    <h1>🔧 Blaine County <span>Auto Repair</span></h1>
 </header>
 
 <div class="tabs">
@@ -426,6 +423,10 @@ th {
     <button class="tab" onclick="openTab('lockpick',this)">Lockpick / Outros</button>
     <button class="tab" onclick="openTab('guincho',this)">Guincho</button>
     <button class="tab" onclick="openTab('clientes',this)">Clientes</button>
+</div>
+
+<div class="search-container" id="quickSearchContainer">
+    <input type="text" class="item-search" id="itemSearchInput" placeholder="🔍 Digite para buscar uma peça ou serviço rapidamente..." oninput="filtrarItens()">
 </div>
 
 <div class="container">
@@ -450,8 +451,8 @@ th {
             <div class="item"><label><input type="checkbox" value="11280" data-aluminio="0" data-borracha="100" data-cobre="100" data-plastico="100" data-sucata="100" onchange="calcular()"> <span>Coletor de Admissão</span> <span class="price-tag">$11.280</span></label></div>
             <div class="item"><label><input type="checkbox" value="11280" data-aluminio="0" data-borracha="100" data-cobre="100" data-plastico="100" data-sucata="100" onchange="calcular()"> <span>Sistema de Combustível</span> <span class="price-tag">$11.280</span></label></div>
             
-            <div class="item" style="border-color: rgba(255, 43, 43, 0.3);"><label><input type="checkbox" value="54780" data-aluminio="470" data-borracha="240" data-cobre="590" data-plastico="200" data-sucata="590" onchange="calcular()"> <span style="color: #ff5555; font-weight: bold;">📦 STAGE 1 E 2</span> <span class="price-tag">$54.780</span></label></div>
-            <div class="item" style="border-color: rgba(255, 43, 43, 0.5);"><label><input type="checkbox" value="133740" data-aluminio="470" data-borracha="1040" data-cobre="1390" data-plastico="1000" data-sucata="1390" onchange="calcular()"> <span style="color: #ff5555; font-weight: bold;">🔥 FULL TUNING</span> <span class="price-tag">$133.740</span></label></div>
+            <div class="item" style="border-style: dashed;"><label><input type="checkbox" value="54780" data-aluminio="470" data-borracha="240" data-cobre="590" data-plastico="200" data-sucata="590" onchange="calcular()"> <span style="color: var(--primary); font-weight: bold;">📦 STAGE 1 E 2</span> <span class="price-tag">$54.780</span></label></div>
+            <div class="item" style="border-style: dashed;"><label><input type="checkbox" value="133740" data-aluminio="470" data-borracha="1040" data-cobre="1390" data-plastico="1000" data-sucata="1390" onchange="calcular()"> <span style="color: var(--primary); font-weight: bold;">🔥 FULL TUNING</span> <span class="price-tag">$133.740</span></label></div>
         </div>
     </div>
 
@@ -581,21 +582,21 @@ th {
             <div class="dock-inputs">
                 <select id="discountRate" class="discount-select" onchange="calcular()">
                     <option value="0">Sem Desconto</option>
-                    <option value="5">5% de Desconto</option>
-                    <option value="10">10% de Desconto</option>
-                    <option value="15">15% de Desconto</option>
-                    <option value="20">20% de Desconto</option>
-                    <option value="25">25% de Desconto</option>
+                    <option value="5">5% Desconto</option>
+                    <option value="10">10% Desconto</option>
+                    <option value="15">15% Desconto</option>
+                    <option value="20">20% Desconto</option>
+                    <option value="25">25% Desconto</option>
                 </select>
                 <input id="clientName" placeholder="Nome do Cliente (Opcional)">
-                <input id="clientCode" placeholder="ID / Passaporte (Obrigatório)">
+                <input id="clientCode" placeholder="Passaporte / ID (Obrigatório)">
             </div>
         </div>
 
         <div class="dock-buttons">
-            <button class="btn btn-copy" onclick="copiarTotal()">Copiar Valor</button>
-            <button class="btn btn-reset" onclick="resetar()">Limpar Tudo</button>
-            <button class="btn btn-save" onclick="salvarOrcamento()">Salvar Registro</button>
+            <button class="btn btn-copy" onclick="copiarTotal()">Copiar</button>
+            <button class="btn btn-reset" onclick="resetar()">Limpar</button>
+            <button class="btn btn-save" onclick="salvarOrcamento()">Salvar Ordem</button>
         </div>
     </div>
 </div>
@@ -621,6 +622,35 @@ function openTab(id, el) {
     document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     el.classList.add('active');
+    
+    // Ocultar campo de busca rápida se estiver na aba de clientes para não confundir
+    const searchBox = document.getElementById('quickSearchContainer');
+    if (id === 'clientes') {
+        searchBox.style.display = 'none';
+    } else {
+        searchBox.style.display = 'block';
+    }
+    
+    // Limpa a busca ao trocar de aba
+    document.getElementById('itemSearchInput').value = '';
+    filtrarItens();
+}
+
+// Filtro de usabilidade para achar peças rapidamente por texto
+function filtrarItens() {
+    let input = document.getElementById('itemSearchInput').value.toLowerCase();
+    let activeContent = document.querySelector('.content.active');
+    if(!activeContent) return;
+    
+    let items = activeContent.querySelectorAll('.item');
+    items.forEach(item => {
+        let text = item.textContent.toLowerCase();
+        if(text.includes(input)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
 }
 
 function calcular() {
