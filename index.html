@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auto Repair - Dashboard</title>
 
-<!-- INCLUSÃO DOS SCRIPTS DO FIREBASE (Versão estável compatível com navegadores) -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -37,7 +36,7 @@ body {
     background-position: center;
     color: var(--text-main);
     font-size: 14px;
-    padding-bottom: 90px;
+    padding-bottom: 140px; /* Aumentado devido ao painel de materiais */
 }
 
 /* HEADER */
@@ -306,21 +305,52 @@ tr:hover td {
 .rank-item:nth-child(2) { border-left-color: #94a3b8; }
 .rank-item:nth-child(3) { border-left-color: #b45309; }
 
-/* BARRA DOCK INFERIOR (FIXADA) */
+/* BARRA DOCK INFERIOR (FIXADA EM DUAS SEÇÕES PARA SUPORTAR MATERIAIS) */
 .dock-bar {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(5, 5, 7, 0.9);
+    background: rgba(5, 5, 7, 0.95);
     backdrop-filter: blur(15px);
     border-top: 1px solid rgba(255, 43, 43, 0.4);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
+}
+
+/* Linha superior do Dock: MATERIAIS */
+.dock-materials {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 8px 24px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-wrap: wrap;
+}
+.material-badge {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-muted);
+    background: #111115;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--panel-border);
+}
+.material-badge span {
+    color: #55ff55;
+    margin-left: 5px;
+    font-family: monospace;
+}
+
+/* Linha principal do Dock */
+.dock-main {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 24px;
-    z-index: 1000;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
     gap: 20px;
 }
 
@@ -392,7 +422,6 @@ tr:hover td {
 .btn-reset { background: #3f1212; color: #fca5a5; border: 1px solid #7f1d1d; }
 .btn-save { background: #22c55e; color: #052e16; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
 
-/* BOTÃO DE RESET DO HISTÓRICO */
 .btn-db-clear {
     background: #3f1212; 
     color: #fca5a5; 
@@ -433,315 +462,24 @@ tr:hover td {
 
 <div class="container">
 
-    <!-- ===================== NITRO ===================== -->
     <div id="nitro" class="content active">
         <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="5625" onchange="calcular()"> <span>Garrafa Nitro Pequena</span> <span class="price-tag">$5.625</span></label></div>
+            <div class="item"><label><input type="checkbox" value="5625" data-mat-aluminio="100" data-mat-cobre="100" data-mat-sucata="100" onchange="calcular()"> <span>Garrafa Nitro Pequena</span> <span class="price-tag">$5.625</span></label></div>
             <div class="item"><label><input type="checkbox" value="625" onchange="calcular()"> <span>Refil Nitro</span> <span class="price-tag">$625</span></label></div>
         </div>
     </div>
 
-    <!-- ===================== STAGE ===================== -->
     <div id="stage" class="content">
         <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="9000" onchange="calcular()"> <span>ECU (STAGE 1)</span> <span class="price-tag">$9.000</span></label></div>
-            <div class="item"><label><input type="checkbox" value="16500" onchange="calcular()"> <span>Kit Freio (STAGE 2)</span> <span class="price-tag">$16.500</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Filtro de Ar (STAGE 2)</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="18000" onchange="calcular()"> <span>Escape Esportivo (STAGE 2)</span> <span class="price-tag">$18.000</span></label></div>
-            <div class="item"><label><input type="checkbox" value="22560" onchange="calcular()"> <span>Turbo (STAGE 3)</span> <span class="price-tag">$22.560</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Intercooler</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Suspensão 5</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Racing Clutch</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Coletor de Admissão</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" onchange="calcular()"> <span>Sistema de Combustível</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item" style="border-color: rgba(255, 43, 43, 0.3);"><label><input type="checkbox" value="54780" onchange="calcular()"> <span style="color: #ff5555; font-weight: bold;">📦 STAGE 1 E 2</span> <span class="price-tag">$54.780</span></label></div>
-            <div class="item" style="border-color: rgba(255, 43, 43, 0.5);"><label><input type="checkbox" value="133740" onchange="calcular()"> <span style="color: #ff5555; font-weight: bold;">🔥 FULL TUNING</span> <span class="price-tag">$133.740</span></label></div>
-        </div>
-    </div>
-
-    <!-- ===================== REPAROS / SERVIÇOS ===================== -->
-    <div id="reparo" class="content">
-        <div class="items-grid">
-            <!-- CHECKBOXES FIXOS NO INÍCIO -->
-            <div class="item"><label><input type="checkbox" value="240" onchange="calcular()"> <span>Reparo Lataria</span> <span class="price-tag">$240</span></label></div>
-            <div class="item"><label><input type="checkbox" value="840" onchange="calcular()"> <span>Reparo Motor</span> <span class="price-tag">$840</span></label></div>
+            <div class="item"><label><input type="checkbox" value="9000" data-mat-aluminio="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>ECU (STAGE 1)</span> <span class="price-tag">$9.000</span></label></div>
+            <div class="item"><label><input type="checkbox" value="16500" data-mat-aluminio="120" data-mat-borracha="120" data-mat-cobre="120" data-mat-sucata="120" onchange="calcular()"> <span>Kit Freio (STAGE 2)</span> <span class="price-tag">$16.500</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Filtro de Ar (STAGE 2)</span> <span class="price-tag">$11.280</span></label></div>
+            <div class="item"><label><input type="checkbox" value="18000" data-mat-aluminio="250" data-mat-cobre="250" data-mat-sucata="250" onchange="calcular()"> <span>Escape Esportivo (STAGE 2)</span> <span class="price-tag">$18.000</span></label></div>
+            <div class="item"><label><input type="checkbox" value="22560" data-mat-borracha="200" data-mat-cobre="200" data-mat-plastico="200" data-mat-sucata="200" onchange="calcular()"> <span>Turbo (STAGE 3)</span> <span class="price-tag">$22.560</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Intercooler</span> <span class="price-tag">$11.280</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="200" data-mat-cobre="200" data-mat-plastico="200" data-mat-sucata="200" onchange="calcular()"> <span>Suspensão 5</span> <span class="price-tag">$11.280</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Racing Clutch</span> <span class="price-tag">$11.280</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Coletor de Admissão</span> <span class="price-tag">$11.280</span></label></div>
+            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Sistema de Combustível</span> <span class="price-tag">$11.280</span></label></div>
             
-            <!-- SELETORES POR QUANTIDADE -->
-            <div class="item">
-                <label><span>Pneu (Cada)</span> <span class="price-tag">$150</span></label>
-                <input type="number" value="0" min="0" data-price="150" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo ECU</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Kit Freio</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Filtro de Ar</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Escape</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Turbo</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Intercooler</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Suspensão 5</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Racing Clutch</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Coletor Adm.</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Reparo Sist. Combust.</span> <span class="price-tag">$900</span></label>
-                <input type="number" value="0" min="0" data-price="900" oninput="calcular()">
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================== LOCKPICK / OUTROS ===================== -->
-    <div id="lockpick" class="content">
-        <div class="items-grid">
-            <div class="item">
-                <label><span>Lockpick (Cada)</span> <span class="price-tag">$300</span></label>
-                <input type="number" value="0" min="0" data-price="300" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Kit Reparo (Cada)</span> <span class="price-tag">$3.000</span></label>
-                <input type="number" value="0" min="0" data-price="3000" oninput="calcular()">
-            </div>
-            <div class="item">
-                <label><span>Lockpick Avançada</span> <span class="price-tag">$600</span></label>
-                <input type="number" value="0" min="0" data-price="600" oninput="calcular()">
-            </div>
-        </div>
-    </div>
-
-    <!-- ===================== GUINCHO ===================== -->
-    <div id="guincho" class="content">
-        <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="600" onchange="calcular()"> <span>Los Santos</span> <span class="price-tag">$600</span></label></div>
-            <div class="item"><label><input type="checkbox" value="1200" onchange="calcular()"> <span>Sandy / Grape</span> <span class="price-tag">$1.200</span></label></div>
-            <div class="item"><label><input type="checkbox" value="1800" onchange="calcular()"> <span>Paleto</span> <span class="price-tag">$1.800</span></label></div>
-        </div>
-    </div>
-
-    <!-- ===================== CLIENTES ===================== -->
-    <div id="clientes" class="content">
-        <div class="clients-container">
-            <!-- ESQUERDA: LISTA -->
-            <div class="panel panel-left">
-                <h3>Histórico de Ordens</h3>
-                <input class="search" id="search" placeholder="Filtrar por nome ou passaporte..." oninput="renderClientes()">
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Passaporte</th>
-                                <th>Total Acumulado</th>
-                                <th>Frequência</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- DIREITA: RANKING -->
-            <div class="panel panel-right">
-                <h3>🏆 Melhores Clientes</h3>
-                <div id="ranking"></div>
-                <button class="btn-db-clear" onclick="resetarHistoricoClientes()">⚠️ Zerar Banco de Dados</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- ===================== DOCK BAR INFERIOR ===================== -->
-<div class="dock-bar">
-    <div class="dock-left">
-        <div class="total-display">
-            <span>Total com Desconto</span>
-            <div id="valorTotal">$0</div>
-        </div>
-        
-        <div class="dock-inputs">
-            <select id="discountRate" class="discount-select" onchange="calcular()">
-                <option value="0">Sem Desconto</option>
-                <option value="5">5% de Desconto</option>
-                <option value="10">10% de Desconto</option>
-                <option value="15">15% de Desconto</option>
-            </select>
-            <input id="clientName" placeholder="Nome do Cliente (Opcional)">
-            <input id="clientCode" placeholder="ID / Passaporte (Obrigatório)">
-        </div>
-    </div>
-
-    <div class="dock-buttons">
-        <button class="btn btn-copy" onclick="copiarTotal()">Copiar Valor</button>
-        <button class="btn btn-reset" onclick="resetar()">Limpar Tudo</button>
-        <button class="btn btn-save" onclick="salvarOrcamento()">Salvar Registro</button>
-    </div>
-</div>
-
-<script>
-// CONFIGURAÇÃO DO SEU FIREBASE
-const firebaseConfig = {
-    databaseURL: "https://autorepair-68-default-rtdb.firebaseio.com/"
-};
-
-// Inicializa o Firebase no painel
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-let valorAtualNumerico = 0;
-let clients = {}; 
-
-// Escuta mudanças no banco de dados em tempo real
-database.ref("clients").on("value", (snapshot) => {
-    clients = snapshot.val() || {};
-    renderClientes();
-});
-
-function openTab(id, el) {
-    document.querySelectorAll('.content').forEach(e => e.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(e => e.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    el.classList.add('active');
-}
-
-function calcular() {
-    let bruto = 0;
-
-    document.querySelectorAll('input[type="checkbox"]').forEach(i => {
-        let itemContainer = i.closest('.item');
-        if (i.checked) {
-            bruto += Number(i.value);
-            if(itemContainer) itemContainer.classList.add('selected');
-        } else {
-            if(itemContainer) itemContainer.classList.remove('selected');
-        }
-    });
-
-    document.querySelectorAll('input[type="number"]').forEach(i => {
-        let qtd = Number(i.value);
-        let itemContainer = i.closest('.item');
-        
-        if (qtd < 0) { i.value = 0; qtd = 0; }
-        
-        bruto += qtd * Number(i.dataset.price);
-        
-        if (qtd > 0) {
-            if(itemContainer) itemContainer.classList.add('selected');
-        } else {
-            if(itemContainer && !itemContainer.querySelector('input[type="checkbox"]')?.checked) {
-                itemContainer.classList.remove('selected');
-            }
-        }
-    });
-
-    let descontoPercentual = Number(document.getElementById("discountRate").value);
-    let valorDescontado = bruto * (descontoPercentual / 100);
-    let totalComDesconto = bruto - valorDescontado;
-
-    valorAtualNumerico = totalComDesconto;
-    document.getElementById("valorTotal").innerText = "$" + totalComDesconto.toLocaleString('pt-BR');
-}
-
-function salvarOrcamento() {
-    let name = document.getElementById("clientName").value.trim();
-    let code = document.getElementById("clientCode").value.trim();
-
-    if (!code) return alert("Erro: O Passaporte/ID do cliente é obrigatório para registrar!");
-    if (valorAtualNumerico === 0) return alert("Erro: Não é possível registrar uma ordem com valor zerado!");
-
-    let clientData = clients[code] || { name: "Cliente Oculto", code: code, total: 0, visits: 0 };
-    
-    if (name) clientData.name = name;
-    clientData.total += valorAtualNumerico;
-    clientData.visits++;
-
-    database.ref("clients/" + code).set(clientData)
-    .then(() => {
-        alert(`Ordem de serviço registrada na nuvem!\nValor de $${valorAtualNumerico.toLocaleString('pt-BR')} enviado ao ID #${code}.`);
-        document.getElementById("clientName").value = "";
-        document.getElementById("clientCode").value = "";
-        document.getElementById("discountRate").value = "0";
-        resetar();
-    })
-    .catch((error) => {
-        alert("Erro ao salvar! Certifique-se de que as regras do seu Firebase estão configuradas como públicas (.read: true, .write: true).");
-        console.error(error);
-    });
-}
-
-function renderClientes() {
-    let search = document.getElementById("search").value?.toLowerCase() || "";
-    let allClients = Object.values(clients);
-
-    let dataFiltrada = allClients.filter(c => c.name.toLowerCase().includes(search) || String(c.code).includes(search));
-    let body = document.getElementById("tableBody");
-    body.innerHTML = "";
-
-    dataFiltrada.forEach(c => {
-        body.innerHTML += `
-        <tr>
-            <td>${c.name}</td>
-            <td><strong>#${c.code}</strong></td>
-            <td>$${c.total.toLocaleString('pt-BR')}</td>
-            <td>${c.visits}x</td>
-        </tr>
-        `;
-    });
-
-    let rankingGeral = [...allClients].sort((a, b) => b.total - a.total);
-    document.getElementById("ranking").innerHTML = rankingGeral.slice(0, 5).map((c, i) => {
-        let medal = i === 0 ? "🥇 " : i === 1 ? "🥈 " : i === 2 ? "🥉 " : `#${i+1} `;
-        return `
-        <div class="rank-item">
-            <span>${medal} ${c.name} (#${c.code})</span>
-            <strong>$${c.total.toLocaleString('pt-BR')}</strong>
-        </div>`;
-    }).join("");
-}
-
-function copiarTotal() {
-    navigator.clipboard.writeText(document.getElementById("valorTotal").innerText);
-    alert("Custo total copiado!");
-}
-
-function resetar() {
-    document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
-    document.querySelectorAll('input[type="number"]').forEach(i => i.value = 0);
-    calcular();
-}
-
-function resetarHistoricoClientes() {
-    if (confirm("⚠️ ATENÇÃO GLOBAL: Você vai APAGAR DEFINITIVAMENTE todo o histórico de clientes da nuvem. Isso limpará o painel de TODOS OS MECÂNICOS. Deseja continuar?")) {
-        database.ref("clients").remove()
-        .then(() => {
-            alert("Banco de dados em nuvem limpo com sucesso!");
-        });
-    }
-}
-</script>
-
-</body>
-</html>
+            <div class="item" style="border-color: rgba(255, 43, 43, 0.3);"><label><input type="checkbox" value="5
