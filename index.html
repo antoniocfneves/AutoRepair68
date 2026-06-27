@@ -36,7 +36,7 @@ body {
     background-position: center;
     color: var(--text-main);
     font-size: 14px;
-    padding-bottom: 140px; /* Aumentado devido ao painel de materiais */
+    padding-bottom: 150px;
 }
 
 /* HEADER */
@@ -219,10 +219,6 @@ input[type="number"]:focus {
 .discount-select:focus {
     border-color: var(--primary);
 }
-.discount-select option {
-    background: #111115;
-    color: white;
-}
 
 /* CLIENTES TAB DESIGN */
 .clients-container {
@@ -286,11 +282,8 @@ th {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-tr:hover td {
-    background: rgba(255,255,255,0.01);
-}
 
-/* LISTA DE RANKING */
+/* RANKING */
 .rank-item {
     padding: 12px;
     background: rgba(0,0,0,0.2);
@@ -302,10 +295,8 @@ tr:hover td {
     border-left: 3px solid #3b82f6;
 }
 .rank-item:nth-child(1) { border-left-color: #ffd700; background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent); }
-.rank-item:nth-child(2) { border-left-color: #94a3b8; }
-.rank-item:nth-child(3) { border-left-color: #b45309; }
 
-/* BARRA DOCK INFERIOR (FIXADA EM DUAS SEÇÕES PARA SUPORTAR MATERIAIS) */
+/* DOCK BAR INFERIOR */
 .dock-bar {
     position: fixed;
     bottom: 0;
@@ -320,166 +311,13 @@ tr:hover td {
     box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
 }
 
-/* Linha superior do Dock: MATERIAIS */
 .dock-materials {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     padding: 8px 24px;
     background: rgba(0, 0, 0, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     flex-wrap: wrap;
 }
 .material-badge {
-    font-size: 12px;
-    font-weight: bold;
-    color: var(--text-muted);
-    background: #111115;
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--panel-border);
-}
-.material-badge span {
-    color: #55ff55;
-    margin-left: 5px;
-    font-family: monospace;
-}
-
-/* Linha principal do Dock */
-.dock-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 24px;
-    gap: 20px;
-}
-
-.dock-left {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    flex: 1;
-}
-
-.total-display {
-    display: flex;
-    flex-direction: column;
-}
-.total-display span {
-    font-size: 10px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 1px;
-}
-#valorTotal {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--primary);
-    text-shadow: 0 0 10px var(--primary-glow);
-    line-height: 1;
-    margin-top: 2px;
-}
-
-.dock-inputs {
-    display: flex;
-    gap: 10px;
-    flex: 1;
-    max-width: 480px;
-}
-.dock-inputs input {
-    flex: 1;
-    background: #111115;
-    border: 1px solid #27272a;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    transition: border-color 0.2s;
-}
-.dock-inputs input:focus {
-    border-color: var(--primary);
-    outline: none;
-}
-
-/* BOTÕES GERAIS */
-.dock-buttons { display: flex; gap: 8px; }
-.btn {
-    padding: 10px 18px;
-    border: none;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 700;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-.btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
-.btn:active { transform: translateY(1px); }
-
-.btn-copy { background: #27272a; color: var(--text-main); border: 1px solid #3f3f46; }
-.btn-reset { background: #3f1212; color: #fca5a5; border: 1px solid #7f1d1d; }
-.btn-save { background: #22c55e; color: #052e16; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
-
-.btn-db-clear {
-    background: #3f1212; 
-    color: #fca5a5; 
-    border: 1px solid #7f1d1d; 
-    padding: 8px 14px; 
-    border-radius: 6px; 
-    cursor: pointer; 
-    font-weight: bold; 
-    margin-top: 15px;
-    width: 100%;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: all 0.2s;
-}
-.btn-db-clear:hover {
-    background: #7f1d1d;
-    color: white;
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1>🚗 AUTO <span>REPAIR</span></h1>
-</header>
-
-<div class="tabs">
-    <button class="tab active" onclick="openTab('nitro',this)">Nitro</button>
-    <button class="tab" onclick="openTab('stage',this)">Peças (Stage)</button>
-    <button class="tab" onclick="openTab('reparo',this)">Reparos / Serviços</button>
-    <button class="tab" onclick="openTab('lockpick',this)">Lockpick / Outros</button>
-    <button class="tab" onclick="openTab('guincho',this)">Guincho</button>
-    <button class="tab" onclick="openTab('clientes',this)">Clientes</button>
-</div>
-
-<div class="container">
-
-    <div id="nitro" class="content active">
-        <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="5625" data-mat-aluminio="100" data-mat-cobre="100" data-mat-sucata="100" onchange="calcular()"> <span>Garrafa Nitro Pequena</span> <span class="price-tag">$5.625</span></label></div>
-            <div class="item"><label><input type="checkbox" value="625" onchange="calcular()"> <span>Refil Nitro</span> <span class="price-tag">$625</span></label></div>
-        </div>
-    </div>
-
-    <div id="stage" class="content">
-        <div class="items-grid">
-            <div class="item"><label><input type="checkbox" value="9000" data-mat-aluminio="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>ECU (STAGE 1)</span> <span class="price-tag">$9.000</span></label></div>
-            <div class="item"><label><input type="checkbox" value="16500" data-mat-aluminio="120" data-mat-borracha="120" data-mat-cobre="120" data-mat-sucata="120" onchange="calcular()"> <span>Kit Freio (STAGE 2)</span> <span class="price-tag">$16.500</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Filtro de Ar (STAGE 2)</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="18000" data-mat-aluminio="250" data-mat-cobre="250" data-mat-sucata="250" onchange="calcular()"> <span>Escape Esportivo (STAGE 2)</span> <span class="price-tag">$18.000</span></label></div>
-            <div class="item"><label><input type="checkbox" value="22560" data-mat-borracha="200" data-mat-cobre="200" data-mat-plastico="200" data-mat-sucata="200" onchange="calcular()"> <span>Turbo (STAGE 3)</span> <span class="price-tag">$22.560</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Intercooler</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="200" data-mat-cobre="200" data-mat-plastico="200" data-mat-sucata="200" onchange="calcular()"> <span>Suspensão 5</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Racing Clutch</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Coletor de Admissão</span> <span class="price-tag">$11.280</span></label></div>
-            <div class="item"><label><input type="checkbox" value="11280" data-mat-borracha="100" data-mat-cobre="100" data-mat-plastico="100" data-mat-sucata="100" onchange="calcular()"> <span>Sistema de Combustível</span> <span class="price-tag">$11.280</span></label></div>
-            
-            <div class="item" style="border-color: rgba(255, 43, 43, 0.3);"><label><input type="checkbox" value="5
